@@ -1,15 +1,15 @@
-# Solana Wallet Analytic App
+# Cross Blink
 
 This project is an app for Solana users to analyze their previous wallet transactions by simply connecting their wallet to the app.
 
-Check out the deployed app: [https://wallet-analytics.vercel.app/](https://wallet-analytics.vercel.app/)
+Check out the deployed app: []()
 
 ## Instalation
 
 First, clone the repo:
 ```
-git clone https://github.com/Noobmaster169/wallet-analytics
-cd wallet-analytics
+git clone https://github.com/Noobmaster169/cross-blink
+cd cross-blink
 ```
 
 Then install the dependencies
