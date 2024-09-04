@@ -2,8 +2,6 @@
 
 This project is an app for Solana users to analyze their previous wallet transactions by simply connecting their wallet to the app.
 
-![](public/display.png)
-
 Check out the deployed app: [https://wallet-analytics.vercel.app/](https://wallet-analytics.vercel.app/)
 
 ## Instalation
