@@ -4,7 +4,6 @@ import dynamic from 'next/dynamic';
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import NavBar from "@/components/Navbar";
 import BlinksDisplay from "@/components/BlinksDisplay";
-import WormholeConnect from '@wormhole-foundation/wormhole-connect';
 
 import { useAnchorWallet, useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { clusterApiUrl, Connection, PublicKey, SystemProgram } from "@solana/web3.js";
