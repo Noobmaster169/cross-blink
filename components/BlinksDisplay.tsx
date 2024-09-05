@@ -33,10 +33,14 @@ const ManyActions = ({ adapter }: { adapter: ActionAdapter }) => {
     actions.forEach((action) => action.setAdapter(adapter));
   }, [actions, adapter]);
   
-  return actions.map(action => (
-    <div key={action.url} className="w-96">
-        <Blink stylePreset="x-dark" action={action} websiteText={new URL(action.url).hostname} />
+  return(
+    <div className="w-1/2">
+    {actions.map(action => (
+        <div key={action.url} className="w-96">
+            <Blink stylePreset="x-dark" action={action} websiteText={new URL(action.url).hostname} />
+        </div>
+    ))}
     </div>
-  ));
+    );
 }
 export default BlinksDisplay;
