@@ -56,7 +56,7 @@ interface blinkOptionProps{
   export const GET = async (req: Request) => {
     try {
       const requestUrl = new URL(req.url);
-      const { option, programId } = validatedQueryParams(requestUrl);
+      const { programId } = validatedQueryParams(requestUrl);
   
       const amount = DEFAULT_SOL_AMOUNT;
       const baseHref = new URL(
@@ -74,8 +74,6 @@ interface blinkOptionProps{
           tokenOptions.push({label: tokenChainLabel, value: tokenChainKey});
         })
       })
-
-
   
       const payload: ActionGetResponse = {
         title: MOCKUP_DATA.name,
@@ -85,20 +83,12 @@ interface blinkOptionProps{
         label: MOCKUP_DATA.name,
         links: {
           actions: [
-            // {
-            //   label: `1st Option: 1 SOL`, // button text
-            //   href: `${baseHref}&option=0`,
-            // },
-            // {
-            //   label: `2nd Option: 2 SOL`, // button text
-            //   href: `${baseHref}&chain={chain}`,
-            // },
             {
               label: "Select Chain",
-              href: `${baseHref}&`,
+              href: `${baseHref}&token={token}&amount={amount}`,
               parameters:[
-                {type:"text", name:"message", label:"Transfer Message"},
-                {type:"select", name: "chain", label:"Target Chain", options: tokenOptions},
+                //{type:"text", name:"message", label:"Transfer Message"},
+                {type:"select", name: "token", label:"Target Chain", options: tokenOptions},
                 // {type:"select", name: "token", label:"Select Token", options: [
                 //     {label: "$SOL", value: "sol"},
                 //     {label: "$ETH", value: "eth"},
@@ -133,10 +123,7 @@ interface blinkOptionProps{
   export const POST = async (req: Request) => {
     try {
       const requestUrl = new URL(req.url);
-      const { option, programId } = validatedQueryParams(requestUrl);
-  
-      const empty = option;
-      const amount = DEFAULT_SOL_AMOUNT;
+      const { amount, programId, token } = validatedQueryParams(requestUrl);
       const body: ActionPostRequest = await req.json();
   
       // validate the client provided input
@@ -149,19 +136,7 @@ interface blinkOptionProps{
           headers: ACTIONS_CORS_HEADERS,
         });
       }
-  
-      //
-      //   const dummy = anchor.web3.Keypair.generate();
-      //   const connection = new Connection(DEFAULT_RPC);
-      //   const program = new anchor.AnchorProvider(connection, dummy, anchor.AnchorProvider.defaultOptions());
-      //   const [fundingPDA, _bump] = findProgramAddressSync([], programId);
-
-      //   const anchorTransaction = new Transaction();
-      //   try{
-      //     anchorTransaction.add(program.methods.fund(amount * LAMPORTS_PER_SOL, option).accounts({fundingAccount: fundingPDA, authority: account}).transaction());
-      //   }catch(e){
-      //     console.log("Error:", e);
-      //   }
+   
       // ensure the receiving account will be rent exempt
       const connection = new Connection(DEFAULT_RPC);
       
@@ -174,7 +149,6 @@ interface blinkOptionProps{
   
       const transaction = new Transaction();
       transaction.feePayer = account;
-  
       transaction.add(
         SystemProgram.transfer({
           fromPubkey: account,
@@ -182,10 +156,8 @@ interface blinkOptionProps{
           lamports: amount * LAMPORTS_PER_SOL,
         })
       );
-  
       // set the end user as the fee payer
       transaction.feePayer = account;
-  
       transaction.recentBlockhash = (
         await connection.getLatestBlockhash()
       ).blockhash;
@@ -195,7 +167,6 @@ interface blinkOptionProps{
           transaction,
           
           message: `Send ${amount} SOL to ${programId.toBase58()}`,
-          //message: `Send ${amount} SOL to ${fundingPDA.toString()}`,
         },
         // note: no additional signers are needed
         // signers: [],
@@ -217,32 +188,43 @@ interface blinkOptionProps{
   
   function validatedQueryParams(requestUrl: URL) {
     // Required Parameter for POST: Chain Option, Token Option, Amount
-    
-    
-    let programId: PublicKey = PROGRAM_ID;
-    let option: number = 0;
-  
-    // try {
-    //   if (requestUrl.searchParams.get("to")) {
-    //     programId = new PublicKey(requestUrl.searchParams.get("to")!);
-    //   }
-    // } catch (err) {
-    //   throw "Invalid input query parameter: to";
-    // }
+    let programId: PublicKey;
+    let amount: number = 0;
+    let token: string = "";
   
     try {
-      if (requestUrl.searchParams.get("option")) {
-        option = parseInt(requestUrl.searchParams.get("option")!);
+      if (requestUrl.searchParams.get("amount")) {
+        amount = parseInt(requestUrl.searchParams.get("amount")!);
       }
-  
-      if (option < 0) throw "Invalid Option";
-      if (option > 1) throw "Invalid Option";
+      if (amount < 0) throw "Invalid Amount";
     } catch (err) {
-      throw "Invalid input query parameter: option";
+      throw "Invalid input query parameter: amount";
     }
-  
-    return {
-      option,
-      programId,
-    };
+    try {
+      if (requestUrl.searchParams.get("token")) {
+        const tokenParam = requestUrl.searchParams.get("token")?.toString();
+        if(tokenParam){
+          token = tokenParam;
+        }
+      }
+      if (amount < 0) throw "Invalid Amount";
+    } catch (err) {
+      throw "Invalid input query parameter: amount";
+    }
+
+    try {
+      if (requestUrl.searchParams.get("to")) {
+        programId = new PublicKey(requestUrl.searchParams.get("to")!);
+        if(programId){
+          console.log("Amount:", amount)
+          console.log("Program ID:", programId.toString());
+          console.log("Token:", token);
+          return {amount, programId, token};
+        }
+      }
+    } catch (err) {
+      throw "Invalid input query parameter: to";
+    }
+    // Throw invalid if data not found:
+    throw "Invalid input query parameter: to";
   }
