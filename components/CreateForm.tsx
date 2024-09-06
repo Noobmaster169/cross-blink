@@ -20,6 +20,7 @@ import { SiSolana } from "react-icons/si";
 import { useEffect, useState } from "react"
 import NewChainModal from "./NewChainModal"
 import NewTokenModal from "./NewTokenModal"
+import Image from "next/image"
 
 const MOCKUP_DATA = {
     name: "Hello Blinks",
@@ -52,6 +53,57 @@ type CreateFormProps = {
     blinkTokens: any[];
     setBlinkTokens: React.Dispatch<React.SetStateAction<any>>;
 }
+const chainImages = [{
+        chain:"Ethereum",
+        image:"/ethereum-eth-logo.svg"
+    },
+    {
+        chain:"Solana",
+        image:"/solana-sol-logo.svg"
+    },
+    {
+        chain:"Aptos",
+        image:"/aptos-apt-logo.svg"
+    },
+    {
+        chain:"Arbitrum",
+        image:"/arbitrum-arb-logo.svg"
+    },
+    {
+        chain:"Avalanche",
+        image:"/avalanche-avax-logo.svg"
+    },
+    {
+        chain:"Base",
+        image:"/base-logo.png"
+    },
+    {
+        chain:"Binance",
+        image:"/binance.svg"
+    },
+    {
+        chain:"Polygon",
+        image:"/polygon-matic-logo.svg"
+    }
+    ]
+
+const tokenImages = [{
+        token:"ETH",
+        image:"/ethereum-eth-logo.svg"
+    },
+    {
+        token: "USDC",
+        image: "/usdc.svg"
+    },
+    {
+        token: "USDT",
+        image: "/usdt.svg"
+    },
+    {
+        token: "SOL",
+        image: "/solana-sol-logo.svg"
+    }
+    ]
 
 const CreateForm = ({ blinkTitle, setBlinkTitle, blinkDescription, setBlinkDescription, blinkTokens, setBlinkTokens }: CreateFormProps) => {
   const addNewChain = (chain: string, address: string) => {
@@ -100,11 +152,6 @@ const CreateForm = ({ blinkTitle, setBlinkTitle, blinkDescription, setBlinkDescr
     const [newToken, setNewToken] = useState("");
     const [selectedChain, setSelectedChain] = useState("");
     const [initializedChains, setInitializedChains] = useState(MOCKUP_DATA.chains.map(chain => chain.chain));
-
-    useEffect(() => {
-      setBlinkTokens(MOCKUP_DATA.chains.map(chain => chain.acceptedTokens.map(token => `${token.name} (${chain.chain})`)).flat());
-      console.log("blinkTokens", blinkTokens);
-    }, [])
 
     return(
         <>
@@ -183,7 +230,7 @@ const CreateForm = ({ blinkTitle, setBlinkTitle, blinkDescription, setBlinkDescr
                                 <div className="grid grid-cols-2 w-full gap-y-2 gap-x-4">
                                     {MOCKUP_DATA.chains.slice(0, 4).map(chain => (
                                         <div className="justify-center py-2 mt-2 w-full rounded-full bg-[#3b2d67] flex gap-2 items-center">
-                                            <SiSolana />
+                                            <Image src={`${chainImages.find(c => c.chain === chain.chain)?.image}`} alt={`${chain.chain}`} width={14} height={14} />
                                             {chain.chain}
                                         </div>
                                     ))}
@@ -213,7 +260,8 @@ const CreateForm = ({ blinkTitle, setBlinkTitle, blinkDescription, setBlinkDescr
                                     {MOCKUP_DATA.chains.slice(0, 4).map(chain => (
                                     chain.acceptedTokens.map(token => (
                                         <div className="pl-4 py-2 mt-2 w-full rounded-full bg-[#3b2d67] flex gap-2">
-                                            {`${token.name} (${chain.chain})`}
+                                            <Image src={`${tokenImages.find(t => t.token === token.name)?.image}`} alt={`${token.name}`} width={16} height={16} />
+                                            <p>{`${token.name} (${chain.chain})`}</p>
                                         </div>
                                     ))
                                 ))}

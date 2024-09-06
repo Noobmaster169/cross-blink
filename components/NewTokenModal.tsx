@@ -94,7 +94,7 @@ const NewTokenModal = ({ isOpen, setIsOpen, newToken, setNewToken, addNewToken, 
                     <SelectItem value="Solana">
                       <div className="flex justify-center items-center gap-2">
                         <SiSolana width={20} height={20} />
-                        Solana
+                        SOL
                       </div>
                     </SelectItem>
                   )}
