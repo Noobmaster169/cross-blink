@@ -153,6 +153,10 @@ const CreateForm = ({ blinkTitle, setBlinkTitle, blinkDescription, setBlinkDescr
     const [selectedChain, setSelectedChain] = useState("");
     const [initializedChains, setInitializedChains] = useState(MOCKUP_DATA.chains.map(chain => chain.chain));
 
+    useEffect(() => {
+        setBlinkTokens(MOCKUP_DATA.chains.map(chain => chain.acceptedTokens.map(token => `${token.name} (${chain.chain})`)).flat())
+    }, [])
+
     return(
         <>
             <NewChainModal
