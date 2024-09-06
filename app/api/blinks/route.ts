@@ -22,6 +22,37 @@ import {
     PROGRAM_ID,
   } from "./const";
 
+const MOCKUP_DATA = {
+  name: "Hello Blinks",
+  image: "https://myimage.com",
+  description:"Lorem ipsum dolor sit amet bla bla bla",
+  chains:[
+    {
+      chain: "ethereum",
+      address: "0x1234567890",
+      acceptedTokens: [{name: "ETH", tokenAddress:"1234"}, {name:"USDT", tokenAddress:"1234"}, {name:"USDC", tokenAddress:"1234"}],
+    },
+    { 
+      chain: "solana",
+      address: "Asf249undj",
+      acceptedTokens: [{name: "SOL", tokenAddress:"1234"}, {name:"USDT", tokenAddress:"1234"}, {name:"USDC", tokenAddress:"1234"}],
+    },
+  ]
+}
+
+
+interface chainProps {
+  chain: string;
+  address: string;
+  acceptedTokens: {name: string, tokenAddress: string}[];
+}
+
+interface blinkOptionProps{
+  label: string;
+  value: string;
+}
+
+
   export const GET = async (req: Request) => {
     try {
       const requestUrl = new URL(req.url);
@@ -32,13 +63,26 @@ import {
         `/api/blinks?to=${programId.toBase58()}`,
         requestUrl.origin
       ).toString();
+
+      const tokenOptions: blinkOptionProps[]= [];
+      MOCKUP_DATA.chains.forEach(chain => {
+        chain.acceptedTokens.forEach(token => {
+          const chainName= chain.chain.charAt(0).toUpperCase() + chain.chain.slice(1)
+          const tokenChainLabel = `${chainName}:${token.name}`
+          const tokenChainKey = `${chain.chain}-${token.name}`
+
+          tokenOptions.push({label: tokenChainLabel, value: tokenChainKey});
+        })
+      })
+
+
   
       const payload: ActionGetResponse = {
-        title: DEFAULT_TITLE,
+        title: MOCKUP_DATA.name,
         icon:
           DEFAULT_AVATAR ?? new URL("/solana_devs.jpg", requestUrl.origin).toString(),
-        description: DEFAULT_DESCRIPTION,
-        label: "Quadratic Funding with BLINKS", // this value will be ignored since `links.actions` exists
+        description: MOCKUP_DATA.description,
+        label: MOCKUP_DATA.name,
         links: {
           actions: [
             // {
@@ -54,17 +98,13 @@ import {
               href: `${baseHref}&`,
               parameters:[
                 {type:"text", name:"message", label:"Transfer Message"},
-                {type:"select", name: "chain", label:"Target Chain", options: [
-                    {label: "Solana", value: "solana"},
-                    {label: "Ethereum", value: "ethereum"},
-                    {label: "Binance", value: "binance"}
-                ]},
-                {type:"select", name: "token", label:"Select Token", options: [
-                    {label: "$SOL", value: "sol"},
-                    {label: "$ETH", value: "eth"},
-                    {label: "$USDT", value: "usdt"},
-                    {label: "$USDC", value: "usdc"},
-                ]},
+                {type:"select", name: "chain", label:"Target Chain", options: tokenOptions},
+                // {type:"select", name: "token", label:"Select Token", options: [
+                //     {label: "$SOL", value: "sol"},
+                //     {label: "$ETH", value: "eth"},
+                //     {label: "$USDT", value: "usdt"},
+                //     {label: "$USDC", value: "usdc"},
+                // ]},
                 {type:"text", name:"amount", label:"Transfer Amount"},
               ]
             }
