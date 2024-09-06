@@ -89,3 +89,11 @@ body {
   }
 }
 
+.select-field {
+  @apply px-5 py-3 border-none focus-visible:ring-transparent focus:ring-transparent !important;
+}
+
+.select-item {
+  @apply py-3 cursor-pointer;
+}
+

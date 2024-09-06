@@ -25,6 +25,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { SiSolana } from "react-icons/si";
+import { useEffect, useState } from "react"
+import NewChainModal from "./NewChainModal"
 
 const MOCKUP_DATA = {
     name: "Hello Blinks",
@@ -41,17 +43,36 @@ const MOCKUP_DATA = {
         address: "Asf249undj",
         acceptedTokens: [{name: "USDC", tokenAddress:"1234"}],
       },
-    {
-        chain: "Aptos",
-        address: "wow",
-        acceptedTokens: [{name: "USDT", tokenAddress:"1234"}],
-    },
+      {
+          chain: "Aptos",
+          address: "wow",
+          acceptedTokens: [{name: "USDT", tokenAddress:"1234"}],
+      },
+      // {
+      //     chain: "Aptos2",
+      //     address: "wow",
+      //     acceptedTokens: [{name: "USDT", tokenAddress:"1234"}],
+      // },
+      // {
+      //     chain: "Aptos3",
+      //     address: "wow",
+      //     acceptedTokens: [{name: "USDT", tokenAddress:"1234"}],
+      // },
     ]
   }
  
 
 
 const CreateForm = () => {
+  const addNewChain = (chain: string, address: string) => {
+    MOCKUP_DATA.chains.push({
+      chain,
+      address,
+      acceptedTokens: [],
+    });
+    console.log(MOCKUP_DATA.chains)
+    setIsChainModalOpen(false);
+  };
     
     const formSchema = z.object({
       blinkName: z.string(),
@@ -75,8 +96,17 @@ const CreateForm = () => {
         console.log(values)
     }
 
+    const [isChainModalOpen, setIsChainModalOpen] = useState(false);
+    const [newChain, setNewChain] = useState("");
+    const [newAddress, setNewAddress] = useState("");
+
+    useEffect(() => {
+      console.log(newChain, newAddress)
+    }, [newChain, newAddress])
+
     return(
         <>
+            <NewChainModal addNewChain={addNewChain} isOpen={isChainModalOpen} setIsOpen={setIsChainModalOpen} newChain={newChain} setNewChain={setNewChain} newAddress={newAddress} setNewAddress={setNewAddress} />
             <div className="w-full p-4 px-8 min-h-full bg-[#221a3b] flex flex-col gap-6 text-white rounded-2xl pb-10">
                 <div className="items-center justify-center flex">
                     <p className="text-white font-semibold text-2xl">Create your Cross-Chain Blinks</p>
@@ -116,16 +146,23 @@ const CreateForm = () => {
                         <FormItem className="h-1/4">
                             <div className="flex-col gap-6 h-full">
                                 <p className="font-semibold">Accepted Chains:</p>
-                                <div className="grid grid-cols-3 w-full gap-y-2 gap-x-4">
-                                    {MOCKUP_DATA.chains.map(chain => (
-                                        <div className="justify-center py-2 mt-2 w-full rounded-full bg-[#434871] flex gap-2 items-center">
+                                <div className="grid grid-cols-2 w-full gap-y-2 gap-x-4">
+                                    {MOCKUP_DATA.chains.slice(0, 4).map(chain => (
+                                        <div className="justify-center py-2 mt-2 w-full rounded-full bg-[#3b2d67] flex gap-2 items-center">
                                             <SiSolana />
                                             {chain.chain}
                                         </div>
                                     ))}
                                 </div>
                                 <div className="grid grid-cols-3 w-full gap-y-2 gap-x-4">
-                                    <Button type="button" className="mt-4 rounded-full bg-[#434871] w-full">+ Add New Chain</Button>
+                                    {MOCKUP_DATA.chains.length < 4 &&
+                                      <Button
+                                        type="button"
+                                        className="mt-8 rounded-full bg-[#434871] w-full"
+                                        onClick={() => setIsChainModalOpen(true)}
+                                      >
+                                        + Add New Chain
+                                      </Button>}
                                 </div>
                             </div>
                         </FormItem>
@@ -139,16 +176,16 @@ const CreateForm = () => {
                             <div className="flex-col gap-6 h-full">
                                 <p className="font-semibold">Accepted Tokens:</p>
                                 <div className="grid grid-cols-1 w-1/2 gap-y-2 gap-x-4">
-                                    {MOCKUP_DATA.chains.map(chain => (
+                                    {MOCKUP_DATA.chains.slice(0, 4).map(chain => (
                                     chain.acceptedTokens.map(token => (
-                                        <div className="pl-4 py-2 mt-2 w-full rounded-full bg-[#434871] flex gap-2">
+                                        <div className="pl-4 py-2 mt-2 w-full rounded-full bg-[#3b2d67] flex gap-2">
                                             {`${token.name} (${chain.chain})`}
                                         </div>
                                     ))
                                 ))}
                                 </div>
                                 <div className="grid grid-cols-3 w-full gap-y-2 gap-x-4">
-                                    <Button type="button" className="mt-4 rounded-full bg-[#434871] w-full">+ Add New Token</Button>
+                                    <Button type="button" className="mt-8 rounded-full bg-[#434871] w-full">+ Add New Token</Button>
                                 </div>
                             </div>
                         </FormItem>
@@ -158,9 +195,9 @@ const CreateForm = () => {
                     control={form.control}
                     name="blinkDescription"
                     render={({ field }) => (
-                        <FormItem>
-                        <div className="items-center justify-center w-full flex">
-                            <Button type="submit" className="rounded-full font-semibold px-16 text-lg bg-[#643cdd]">Create Blinks</Button>
+                        <FormItem className="flex justify-center">
+                        <div className="items-center justify-center w-1/2 flex">
+                            <Button type="submit" className="rounded-full font-semibold px-16 w-full text-lg bg-[#643cdd]">Create Blinks</Button>
                         </div>
                         </FormItem>
                     )}

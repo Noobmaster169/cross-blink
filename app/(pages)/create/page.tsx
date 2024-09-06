@@ -8,7 +8,7 @@ export default function Home(){
           <div className="w-screen flex flex-col items-center justify-center h-fit mb-4">
             <NavBar />
             <div className="w-screen flex justify-between px-6 -mt-12">
-                <div className="w-[30%]">
+                <div className="w-[40%] ml-20">
                     <CreateForm />
                 </div>
             </div>
