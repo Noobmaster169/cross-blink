@@ -14,7 +14,7 @@ const BlinksDisplay = () => {
 }
 
 const ManyActions = ({ adapter }: { adapter: ActionAdapter }) => {
-  const apiUrls = useMemo(() => (['https://funding-with-blink.vercel.app/api/vote',]), []);
+  const apiUrls = useMemo(() => (['https://funding-with-blink.vercel.app/api/vote','https://cross-blink.vercel.app/api/blinks']), []);
   const [actions, setActions] = useState<Action[]>([]);
     
   useEffect(() => {

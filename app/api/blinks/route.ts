@@ -41,23 +41,31 @@ import {
         label: "Quadratic Funding with BLINKS", // this value will be ignored since `links.actions` exists
         links: {
           actions: [
-            {
-              label: `1st Option: 1 SOL`, // button text
-              href: `${baseHref}&option=0`,
-            },
-            {
-              label: `2nd Option: 2 SOL`, // button text
-              href: `${baseHref}&chain={chain}`,
-            },
+            // {
+            //   label: `1st Option: 1 SOL`, // button text
+            //   href: `${baseHref}&option=0`,
+            // },
+            // {
+            //   label: `2nd Option: 2 SOL`, // button text
+            //   href: `${baseHref}&chain={chain}`,
+            // },
             {
               label: "Select Chain",
               href: `${baseHref}&`,
               parameters:[
-                {type:"select", name: "Target Chain", label:"Select Your Chain", options: [
+                {type:"text", name:"message", label:"Transfer Message"},
+                {type:"select", name: "chain", label:"Target Chain", options: [
                     {label: "Solana", value: "solana"},
                     {label: "Ethereum", value: "ethereum"},
                     {label: "Binance", value: "binance"}
-                ]}
+                ]},
+                {type:"select", name: "token", label:"Select Token", options: [
+                    {label: "$SOL", value: "sol"},
+                    {label: "$ETH", value: "eth"},
+                    {label: "$USDT", value: "usdt"},
+                    {label: "$USDC", value: "usdc"},
+                ]},
+                {type:"text", name:"amount", label:"Transfer Amount"},
               ]
             }
           ],
@@ -103,17 +111,17 @@ import {
       }
   
       //
-    //   const dummy = anchor.web3.Keypair.generate();
-    //   const connection = new Connection(DEFAULT_RPC);
-    //   const program = new anchor.AnchorProvider(connection, dummy, anchor.AnchorProvider.defaultOptions());
-    //   const [fundingPDA, _bump] = findProgramAddressSync([], programId);
+      //   const dummy = anchor.web3.Keypair.generate();
+      //   const connection = new Connection(DEFAULT_RPC);
+      //   const program = new anchor.AnchorProvider(connection, dummy, anchor.AnchorProvider.defaultOptions());
+      //   const [fundingPDA, _bump] = findProgramAddressSync([], programId);
 
-    //   const anchorTransaction = new Transaction();
-    //   try{
-    //     anchorTransaction.add(program.methods.fund(amount * LAMPORTS_PER_SOL, option).accounts({fundingAccount: fundingPDA, authority: account}).transaction());
-    //   }catch(e){
-    //     console.log("Error:", e);
-    //   }
+      //   const anchorTransaction = new Transaction();
+      //   try{
+      //     anchorTransaction.add(program.methods.fund(amount * LAMPORTS_PER_SOL, option).accounts({fundingAccount: fundingPDA, authority: account}).transaction());
+      //   }catch(e){
+      //     console.log("Error:", e);
+      //   }
       // ensure the receiving account will be rent exempt
       const connection = new Connection(DEFAULT_RPC);
       
