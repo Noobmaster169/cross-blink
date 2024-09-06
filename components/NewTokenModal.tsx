@@ -93,15 +93,15 @@ const NewTokenModal = ({ isOpen, setIsOpen, newToken, setNewToken, addNewToken, 
                   {initializedChains.includes("Solana") && (
                     <SelectItem value="Solana">
                       <div className="flex justify-center items-center gap-2">
-                        <SiSolana width={20} height={20} />
-                        SOL
+                        <Image src="/solana-sol-logo.svg" width={12} height={12} alt="solana" />
+                        Solana
                       </div>
                     </SelectItem>
                   )}
                   {initializedChains.includes("Aptos") && (
                     <SelectItem value="Aptos">
                       <div className="flex gap-2">
-                        <Image src="/aptos-apt-logo.svg" width={20} height={20} alt="aptos" />
+                        <Image src="/aptos-apt-logo.svg" width={12} height={12} alt="aptos" />
                         Aptos
                       </div>
                     </SelectItem>
@@ -109,7 +109,7 @@ const NewTokenModal = ({ isOpen, setIsOpen, newToken, setNewToken, addNewToken, 
                   {initializedChains.includes("Arbitrum") && (
                     <SelectItem value="Arbitrum">
                       <div className="flex gap-2">
-                        <Image src="/arbitrum-arb-logo.svg" width={20} height={20} alt="arbitrum" />
+                        <Image src="/arbitrum-arb-logo.svg" width={12} height={12} alt="arbitrum" />
                         Arbitrum
                       </div>
                     </SelectItem>
@@ -117,7 +117,7 @@ const NewTokenModal = ({ isOpen, setIsOpen, newToken, setNewToken, addNewToken, 
                   {initializedChains.includes("Avalanche") && (
                     <SelectItem value="Avalanche">
                       <div className="flex gap-2">
-                        <Image src="/avalanche-avax-logo.svg" width={20} height={20} alt="avalanche" />
+                        <Image src="/avalanche-avax-logo.svg" width={12} height={12} alt="avalanche" />
                         Avalanche
                       </div>
                     </SelectItem>
@@ -125,7 +125,7 @@ const NewTokenModal = ({ isOpen, setIsOpen, newToken, setNewToken, addNewToken, 
                   {initializedChains.includes("Base") && (
                     <SelectItem value="Base">
                       <div className="flex gap-2">
-                        <Image src="/base-logo.png" width={20} height={20} alt="base" />
+                        <Image src="/base-logo.png" width={12} height={12} alt="base" />
                         Base
                       </div>
                     </SelectItem>
@@ -141,7 +141,7 @@ const NewTokenModal = ({ isOpen, setIsOpen, newToken, setNewToken, addNewToken, 
                   {initializedChains.includes("Polygon") && (
                     <SelectItem value="Polygon">
                       <div className="flex gap-2">
-                        <Image src="/polygon-matic-logo.svg" width={20} height={20} alt="polygon" />
+                        <Image src="/polygon-matic-logo.svg" width={12} height={12} alt="polygon" />
                         Polygon
                       </div>
                     </SelectItem>
@@ -155,10 +155,10 @@ const NewTokenModal = ({ isOpen, setIsOpen, newToken, setNewToken, addNewToken, 
                   <SelectValue placeholder="Target Token" />
               </SelectTrigger>
               <SelectContent className="bg-[#3B2D67] text-white font-semibold">
-                  <SelectItem value="Ethereum">
+                  <SelectItem value="ETH">
                     <div className="flex gap-2">
                       <Image src="/ethereum-eth-logo.svg" width={12} height={12} alt="arbitrum" />
-                      Ethereum
+                      ETH
                     </div>
                   </SelectItem>
                   <SelectItem value="USDC">
@@ -173,10 +173,10 @@ const NewTokenModal = ({ isOpen, setIsOpen, newToken, setNewToken, addNewToken, 
                       USDT
                     </div>
                   </SelectItem>
-                  <SelectItem value="Solana">
+                  <SelectItem value="SOL">
                       <div className="flex justify-center items-center gap-2">
                       <SiSolana width={20} height={20} />
-                      Solana
+                      SOL
                       </div>
                   </SelectItem>
               </SelectContent>
