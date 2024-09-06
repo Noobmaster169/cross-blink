@@ -16,6 +16,10 @@ const links = [
       name: 'Search',
       href: '/search',
     },
+    {
+      name: 'Create',
+      href: '/create',
+    }
   ];
 
 const WalletMultiButtonDynamic = dynamic(
@@ -27,7 +31,7 @@ export default function NavBar() {
     const [dropdown, setDropdown] = useState<boolean>(false);
 
     return (
-        <nav className = "w-full p-6 dark:bg-gray-900 fixed top-0 left-0 right-0 position-sticky z-50 max-h-24 pt-6 border-white border-b-2">
+        <nav className = "w-full p-6 bg-gray-900 fixed top-0 left-0 right-0 position-sticky z-50 max-h-24 pt-6 border-white border-b-2 text-white">
             <div className="justify-between mx-auto px-4 lg:max-w-7x1 flex md:px-8">
                 <button
                     className="md:hidden p-2 text-gray-700 rounded-md outline-none focus:border-gray-400 focus:border"
