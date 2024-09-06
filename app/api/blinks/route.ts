@@ -11,6 +11,8 @@ import {
     PublicKey,
     SystemProgram,
     Transaction,
+    clusterApiUrl,
+    Keypair
   } from "@solana/web3.js";
   import {
     DEFAULT_SOL_ADDRESS,
@@ -21,6 +23,10 @@ import {
     DEFAULT_DESCRIPTION,
     PROGRAM_ID,
   } from "./const";
+import { AnchorProvider, Idl, Program } from '@coral-xyz/anchor';
+import IDL from "@/anchor/idl.json";
+import { findProgramAddressSync } from '@project-serum/anchor/dist/cjs/utils/pubkey';
+
 
 const MOCKUP_DATA = {
   name: "My Cross Blink",
@@ -52,11 +58,30 @@ interface blinkOptionProps{
   value: string;
 }
 
+// async function fetchBlinkList(blinkPDA: PublicKey) {
+//   if (program && provider && publicKey) {
+//       try {
+//           const blinkList = await program.account.blinkList.fetch(blinkPDA);
 
-  export const GET = async (req: Request) => {
+//           return blinkList;
+//       } catch (error) {
+//           console.error(error);
+//       }
+//   }
+// }
+
+
+
+export const GET = async (req: Request) => {
     try {
       const requestUrl = new URL(req.url);
       const { programId } = validatedQueryParams(requestUrl);
+
+      const publicKey = programId;
+      const blinkProgramId = new PublicKey("CGDCmdCGdL4zCcSgvYkBE6x8PAfih5fzzXt6iFqev5ue");
+      const [blinkPDA, _bump] = findProgramAddressSync([Buffer.from("moveon"), publicKey.toBuffer()], blinkProgramId)
+      console.log("Public Key:", publicKey.toString());
+      console.log("Blink PDA:", blinkPDA.toString());
   
       const amount = DEFAULT_SOL_AMOUNT;
       const baseHref = new URL(
@@ -64,6 +89,31 @@ interface blinkOptionProps{
         requestUrl.origin
       ).toString();
 
+      const newWallet:any= {
+        publicKey: null,
+        signTransaction: async (tx: Transaction) => tx,
+        signAllTransactions: async (txs: Transaction[]) => txs,
+      };
+     
+      
+      console.log("Creating Anchor Programs")
+      const connection = new Connection(clusterApiUrl('devnet'));
+      const provider = new AnchorProvider(connection, newWallet, AnchorProvider.defaultOptions());
+      const program = new Program(IDL as Idl, provider);
+      console.log("Wallet Connection Successful")
+
+      const programAccount:any = program.account
+      const blinkList:any = await programAccount.blinkList.fetch(blinkPDA);
+      console.log(blinkList);
+      
+      if(blinkList.blinks){
+        const blinkData = blinkList.blinks[0];
+        MOCKUP_DATA.name = blinkData.name;
+        MOCKUP_DATA.description = blinkData.description;
+        console.log(blinkData.acceptedChains);
+      }
+
+      // Get the list of tokens in each chain
       const tokenOptions: blinkOptionProps[]= [];
       MOCKUP_DATA.chains.forEach(chain => {
         chain.acceptedTokens.forEach(token => {
