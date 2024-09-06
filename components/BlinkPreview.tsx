@@ -5,10 +5,10 @@ import Image from "next/image";
 type BlinkProps = {
     blinkTitle: string;
     blinkDescription: string;
-    blinkToken: any;
+    blinkTokens: any;
 }
 
-const BlinkPreview = ({blink}: BlinkProps) => {
+const BlinkPreview = ({blinkTitle, blinkDescription, blinkTokens}: BlinkProps) => {
     return(
         <>
             <div className="w-full p-4 px-8 min-h-full bg-[#221a3b] flex flex-col gap-6 text-white rounded-2xl pb-10">
@@ -27,15 +27,17 @@ const BlinkPreview = ({blink}: BlinkProps) => {
                     <p className="text-white font-semibold text-2xl">{blink.blinkTitle}</p>
                 </div> */}
                  <div className="items-center flex">
-                    <p className="text-white font-semibold text-2xl">This is the blink title</p>
+                    <p className="text-white font-semibold text-2xl">{blinkTitle}</p>
                 </div>
                 <div className="items-center justify-center flex">
-                    <p className="text-white font-semibold text-xl">Hello this is an example of a blink test 123 blablabla</p>
+                    <p className="text-white font-semibold text-xl">{blinkDescription}</p>
                 </div>
                 <div className="flex justify-center items-center">
-                    <div className="pl-4 py-2 mt-2 w-[80%] rounded-full bg-[#3b2d67] flex gap-2 items-center justify-center text-xl font-semibold">
-                        USDC (Solana)
+                  {blinkTokens.map((token: any, index: number) => (
+                    <div className="pl-4 py-2 mt-2 w-1/2 rounded-full bg-[#3b2d67] flex gap-2 items-center justify-center text-xl font-semibold">
+                      {token}
                     </div>
+                  ))}
                 </div>
             </div>
         </>

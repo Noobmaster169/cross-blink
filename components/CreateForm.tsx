@@ -44,9 +44,9 @@ const MOCKUP_DATA = {
         acceptedTokens: [{name: "USDC", tokenAddress:"1234"}],
       },
       {
-          chain: "Aptos",
-          address: "wow",
-          acceptedTokens: [{name: "USDT", tokenAddress:"1234"}],
+        chain: "Aptos",
+        address: "wow",
+        acceptedTokens: [{name: "USDT", tokenAddress:"1234"}],
       },
       // {
       //     chain: "Aptos2",
@@ -61,9 +61,16 @@ const MOCKUP_DATA = {
     ]
   }
  
+type CreateFormProps = {
+    blinkTitle: string;
+    setBlinkTitle: React.Dispatch<React.SetStateAction<string>>;
+    blinkDescription: string;
+    setBlinkDescription: React.Dispatch<React.SetStateAction<string>>;
+    blinkTokens: any[];
+    setBlinkTokens: React.Dispatch<React.SetStateAction<any>>;
+}
 
-
-const CreateForm = () => {
+const CreateForm = ({ blinkTitle, setBlinkTitle, blinkDescription, setBlinkDescription, blinkTokens, setBlinkTokens }: CreateFormProps) => {
   const addNewChain = (chain: string, address: string) => {
     MOCKUP_DATA.chains.push({
       chain,
@@ -104,6 +111,12 @@ const CreateForm = () => {
       console.log(newChain, newAddress)
     }, [newChain, newAddress])
 
+    useEffect(() => {
+      setBlinkTokens(MOCKUP_DATA.chains.map(chain => chain.acceptedTokens.map(token => token.name)).flat());
+      // console.log("in blink tokens:", MOCKUP_DATA.chains.map(chain => chain.acceptedTokens.map(token => token.name)).flat());
+      console.log("blinkTokens", blinkTokens);
+    }, [])
+
     return(
         <>
             <NewChainModal addNewChain={addNewChain} isOpen={isChainModalOpen} setIsOpen={setIsChainModalOpen} newChain={newChain} setNewChain={setNewChain} newAddress={newAddress} setNewAddress={setNewAddress} />
@@ -120,7 +133,12 @@ const CreateForm = () => {
                         <FormItem>
                         <FormLabel>Blink Name:</FormLabel>
                         <FormControl>
-                            <Input className="bg-[#434871] border-opacity-0 rounded-lg" placeholder="" {...field} />
+                            <Input
+                              className="bg-[#434871] border-opacity-0 rounded-lg"
+                              placeholder=""
+                              value={blinkTitle}
+                              onChange={(e) => setBlinkTitle(e.target.value)}
+                            />
                         </FormControl>
                         <FormMessage />
                         </FormItem>
@@ -133,7 +151,12 @@ const CreateForm = () => {
                         <FormItem>
                         <FormLabel>Blink Description:</FormLabel>
                         <FormControl>
-                            <Textarea className="bg-[#434871] border-opacity-0 resize-none rounded-lg" placeholder="" {...field} />
+                            <Textarea
+                              className="bg-[#434871] border-opacity-0 resize-none rounded-lg" 
+                              placeholder=""
+                              value={blinkDescription}
+                              onChange={(e) => setBlinkDescription(e.target.value)}
+                            />
                         </FormControl>
                         <FormMessage />
                         </FormItem>
