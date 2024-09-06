@@ -22,7 +22,7 @@ export default function Home() {
   return (
     <>
     <div className="pb-10">
-      <div className="w-screen flex flex-col items-center justify-center h-2/3">
+      <div className="w-screen flex flex-col items-center justify-center h-full">
         <NavBar />
         <div className="w-screen flex flex-row justify-between">
           <BlinksDisplay/>
