@@ -1,0 +1,349 @@
+{
+  "address": "CGDCmdCGdL4zCcSgvYkBE6x8PAfih5fzzXt6iFqev5ue",
+  "metadata": {
+    "name": "blink",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "addBlink",
+      "discriminator": [
+        17,
+        129,
+        133,
+        17,
+        134,
+        230,
+        165,
+        236
+      ],
+      "accounts": [
+        {
+          "name": "blinkList",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  111,
+                  118,
+                  101,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              }
+            ]
+          }
+        },
+        {
+          "name": "user",
+          "signer": true
+        },
+        {
+          "name": "master",
+          "writable": true,
+          "signer": true,
+          "address": "EHAPwi6PoKusaPE5yqQBLQFV69zTTyJTqHwAsN6WEzz"
+        },
+        {
+          "name": "systemProgram",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "uuid",
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "name": "image",
+          "type": "string"
+        },
+        {
+          "name": "acceptedChains",
+          "type": {
+            "vec": {
+              "defined": {
+                "name": "chain"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "deleteBlink",
+      "discriminator": [
+        207,
+        136,
+        23,
+        138,
+        245,
+        136,
+        173,
+        139
+      ],
+      "accounts": [
+        {
+          "name": "blinkList",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  111,
+                  118,
+                  101,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              }
+            ]
+          }
+        },
+        {
+          "name": "user",
+          "signer": true
+        },
+        {
+          "name": "master",
+          "writable": true,
+          "signer": true,
+          "address": "EHAPwi6PoKusaPE5yqQBLQFV69zTTyJTqHwAsN6WEzz"
+        },
+        {
+          "name": "systemProgram",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "uuid",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "updateBlink",
+      "discriminator": [
+        64,
+        85,
+        147,
+        118,
+        143,
+        181,
+        186,
+        24
+      ],
+      "accounts": [
+        {
+          "name": "blinkList",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  111,
+                  118,
+                  101,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              }
+            ]
+          }
+        },
+        {
+          "name": "user",
+          "signer": true
+        },
+        {
+          "name": "master",
+          "writable": true,
+          "signer": true,
+          "address": "EHAPwi6PoKusaPE5yqQBLQFV69zTTyJTqHwAsN6WEzz"
+        },
+        {
+          "name": "systemProgram",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "uuid",
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "type": {
+            "option": "string"
+          }
+        },
+        {
+          "name": "description",
+          "type": {
+            "option": "string"
+          }
+        },
+        {
+          "name": "image",
+          "type": {
+            "option": "string"
+          }
+        },
+        {
+          "name": "acceptedChains",
+          "type": {
+            "option": {
+              "vec": {
+                "defined": {
+                  "name": "chain"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "blinkList",
+      "discriminator": [
+        135,
+        231,
+        68,
+        104,
+        58,
+        112,
+        219,
+        5
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "listNotInitialized",
+      "msg": "Blink list is not initialized"
+    },
+    {
+      "code": 6001,
+      "name": "listAtMaxLength",
+      "msg": "Blink list is at maximum length"
+    },
+    {
+      "code": 6002,
+      "name": "blinkNotFound",
+      "msg": "Blink with the specified UUID not found"
+    }
+  ],
+  "types": [
+    {
+      "name": "blink",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "uuid",
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "type": "string"
+          },
+          {
+            "name": "image",
+            "type": "string"
+          },
+          {
+            "name": "acceptedChains",
+            "type": {
+              "vec": {
+                "defined": {
+                  "name": "chain"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "blinkList",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "isInitialized",
+            "type": "bool"
+          },
+          {
+            "name": "blinks",
+            "type": {
+              "vec": {
+                "defined": {
+                  "name": "blink"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "chain",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "recipientAddress",
+            "type": "string"
+          },
+          {
+            "name": "acceptedTokens",
+            "type": {
+              "vec": "string"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

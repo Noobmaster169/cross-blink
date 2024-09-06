@@ -24,8 +24,7 @@ export default function Home() {
     <div className="pb-10">
       <div className="w-screen flex flex-col items-center justify-center h-full">
         <NavBar />
-        <div className="w-screen flex flex-row justify-between px-6 -mt-10">
-          {/*<WormholeConnect/>*/}
+        <div className="w-screen flex flex-row justify-between">
           <BlinksDisplay/>
         </div>
       </div>

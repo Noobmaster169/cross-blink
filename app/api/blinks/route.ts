@@ -22,42 +22,80 @@ import {
     PROGRAM_ID,
   } from "./const";
 
+const MOCKUP_DATA = {
+  name: "Hello Blinks",
+  image: "https://myimage.com",
+  description:"Lorem ipsum dolor sit amet bla bla bla",
+  chains:[
+    {
+      chain: "ethereum",
+      address: "0x1234567890",
+      acceptedTokens: [{name: "ETH", tokenAddress:"1234"}, {name:"USDT", tokenAddress:"1234"}, {name:"USDC", tokenAddress:"1234"}],
+    },
+    { 
+      chain: "solana",
+      address: "Asf249undj",
+      acceptedTokens: [{name: "SOL", tokenAddress:"1234"}, {name:"USDT", tokenAddress:"1234"}, {name:"USDC", tokenAddress:"1234"}],
+    },
+  ]
+}
+
+
+interface chainProps {
+  chain: string;
+  address: string;
+  acceptedTokens: {name: string, tokenAddress: string}[];
+}
+
+interface blinkOptionProps{
+  label: string;
+  value: string;
+}
+
+
   export const GET = async (req: Request) => {
     try {
       const requestUrl = new URL(req.url);
-      const { option, programId } = validatedQueryParams(requestUrl);
+      const { programId } = validatedQueryParams(requestUrl);
   
       const amount = DEFAULT_SOL_AMOUNT;
       const baseHref = new URL(
         `/api/blinks?to=${programId.toBase58()}`,
         requestUrl.origin
       ).toString();
+
+      const tokenOptions: blinkOptionProps[]= [];
+      MOCKUP_DATA.chains.forEach(chain => {
+        chain.acceptedTokens.forEach(token => {
+          const chainName= chain.chain.charAt(0).toUpperCase() + chain.chain.slice(1)
+          const tokenChainLabel = `${chainName}:${token.name}`
+          const tokenChainKey = `${chain.chain}-${token.name}`
+
+          tokenOptions.push({label: tokenChainLabel, value: tokenChainKey});
+        })
+      })
   
       const payload: ActionGetResponse = {
-        title: DEFAULT_TITLE,
+        title: MOCKUP_DATA.name,
         icon:
           DEFAULT_AVATAR ?? new URL("/solana_devs.jpg", requestUrl.origin).toString(),
-        description: DEFAULT_DESCRIPTION,
-        label: "Quadratic Funding with BLINKS", // this value will be ignored since `links.actions` exists
+        description: MOCKUP_DATA.description,
+        label: MOCKUP_DATA.name,
         links: {
           actions: [
             {
-              label: `1st Option: 1 SOL`, // button text
-              href: `${baseHref}&option=0`,
-            },
-            {
-              label: `2nd Option: 2 SOL`, // button text
-              href: `${baseHref}&chain={chain}`,
-            },
-            {
               label: "Select Chain",
-              href: `${baseHref}&`,
+              href: `${baseHref}&token={token}&amount={amount}`,
               parameters:[
-                {type:"select", name: "Target Chain", label:"Select Your Chain", options: [
-                    {label: "Solana", value: "solana"},
-                    {label: "Ethereum", value: "ethereum"},
-                    {label: "Binance", value: "binance"}
-                ]}
+                //{type:"text", name:"message", label:"Transfer Message"},
+                {type:"select", name: "token", label:"Target Chain", options: tokenOptions},
+                // {type:"select", name: "token", label:"Select Token", options: [
+                //     {label: "$SOL", value: "sol"},
+                //     {label: "$ETH", value: "eth"},
+                //     {label: "$USDT", value: "usdt"},
+                //     {label: "$USDC", value: "usdc"},
+                // ]},
+                {type:"text", name:"amount", label:"Transfer Amount"},
               ]
             }
           ],
@@ -85,10 +123,7 @@ import {
   export const POST = async (req: Request) => {
     try {
       const requestUrl = new URL(req.url);
-      const { option, programId } = validatedQueryParams(requestUrl);
-  
-      const empty = option;
-      const amount = DEFAULT_SOL_AMOUNT;
+      const { amount, programId, token } = validatedQueryParams(requestUrl);
       const body: ActionPostRequest = await req.json();
   
       // validate the client provided input
@@ -101,19 +136,7 @@ import {
           headers: ACTIONS_CORS_HEADERS,
         });
       }
-  
-      //
-    //   const dummy = anchor.web3.Keypair.generate();
-    //   const connection = new Connection(DEFAULT_RPC);
-    //   const program = new anchor.AnchorProvider(connection, dummy, anchor.AnchorProvider.defaultOptions());
-    //   const [fundingPDA, _bump] = findProgramAddressSync([], programId);
-
-    //   const anchorTransaction = new Transaction();
-    //   try{
-    //     anchorTransaction.add(program.methods.fund(amount * LAMPORTS_PER_SOL, option).accounts({fundingAccount: fundingPDA, authority: account}).transaction());
-    //   }catch(e){
-    //     console.log("Error:", e);
-    //   }
+   
       // ensure the receiving account will be rent exempt
       const connection = new Connection(DEFAULT_RPC);
       
@@ -126,7 +149,6 @@ import {
   
       const transaction = new Transaction();
       transaction.feePayer = account;
-  
       transaction.add(
         SystemProgram.transfer({
           fromPubkey: account,
@@ -134,10 +156,8 @@ import {
           lamports: amount * LAMPORTS_PER_SOL,
         })
       );
-  
       // set the end user as the fee payer
       transaction.feePayer = account;
-  
       transaction.recentBlockhash = (
         await connection.getLatestBlockhash()
       ).blockhash;
@@ -147,7 +167,6 @@ import {
           transaction,
           
           message: `Send ${amount} SOL to ${programId.toBase58()}`,
-          //message: `Send ${amount} SOL to ${fundingPDA.toString()}`,
         },
         // note: no additional signers are needed
         // signers: [],
@@ -169,32 +188,43 @@ import {
   
   function validatedQueryParams(requestUrl: URL) {
     // Required Parameter for POST: Chain Option, Token Option, Amount
-    
-    
-    let programId: PublicKey = PROGRAM_ID;
-    let option: number = 0;
-  
-    // try {
-    //   if (requestUrl.searchParams.get("to")) {
-    //     programId = new PublicKey(requestUrl.searchParams.get("to")!);
-    //   }
-    // } catch (err) {
-    //   throw "Invalid input query parameter: to";
-    // }
+    let programId: PublicKey;
+    let amount: number = 0;
+    let token: string = "";
   
     try {
-      if (requestUrl.searchParams.get("option")) {
-        option = parseInt(requestUrl.searchParams.get("option")!);
+      if (requestUrl.searchParams.get("amount")) {
+        amount = parseInt(requestUrl.searchParams.get("amount")!);
       }
-  
-      if (option < 0) throw "Invalid Option";
-      if (option > 1) throw "Invalid Option";
+      if (amount < 0) throw "Invalid Amount";
     } catch (err) {
-      throw "Invalid input query parameter: option";
+      throw "Invalid input query parameter: amount";
     }
-  
-    return {
-      option,
-      programId,
-    };
+    try {
+      if (requestUrl.searchParams.get("token")) {
+        const tokenParam = requestUrl.searchParams.get("token")?.toString();
+        if(tokenParam){
+          token = tokenParam;
+        }
+      }
+      if (amount < 0) throw "Invalid Amount";
+    } catch (err) {
+      throw "Invalid input query parameter: amount";
+    }
+
+    try {
+      if (requestUrl.searchParams.get("to")) {
+        programId = new PublicKey(requestUrl.searchParams.get("to")!);
+        if(programId){
+          console.log("Amount:", amount)
+          console.log("Program ID:", programId.toString());
+          console.log("Token:", token);
+          return {amount, programId, token};
+        }
+      }
+    } catch (err) {
+      throw "Invalid input query parameter: to";
+    }
+    // Throw invalid if data not found:
+    throw "Invalid input query parameter: to";
   }
