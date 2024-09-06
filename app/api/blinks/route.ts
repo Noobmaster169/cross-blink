@@ -23,14 +23,14 @@ import {
   } from "./const";
 
 const MOCKUP_DATA = {
-  name: "Hello Blinks",
-  image: "https://myimage.com",
-  description:"Lorem ipsum dolor sit amet bla bla bla",
+  name: "My Cross Blink",
+  image: "https://github.com/Noobmaster169/cross-blink/blob/main/public/cross-blink.png?raw=true",
+  description:"Send Token to my address using this blink",
   chains:[
     {
       chain: "ethereum",
       address: "0x1234567890",
-      acceptedTokens: [{name: "ETH", tokenAddress:"1234"}, {name:"USDT", tokenAddress:"1234"}, {name:"USDC", tokenAddress:"1234"}],
+      acceptedTokens: [{name:"USDT", tokenAddress:"1234"}, {name:"USDC", tokenAddress:"1234"}],
     },
     { 
       chain: "solana",
