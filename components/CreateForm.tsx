@@ -232,8 +232,8 @@ const CreateForm = ({ blinkTitle, setBlinkTitle, blinkDescription, setBlinkDescr
                             <div className="flex-col gap-6 h-full">
                                 <p className="font-semibold">Accepted Chains:</p>
                                 <div className="grid grid-cols-2 w-full gap-y-2 gap-x-4">
-                                    {MOCKUP_DATA.chains.slice(0, 4).map(chain => (
-                                        <div className="justify-center py-2 mt-2 w-full rounded-full bg-[#3b2d67] flex gap-2 items-center">
+                                    {MOCKUP_DATA.chains.slice(0, 4).map((chain, index) => (
+                                        <div className="justify-center py-2 mt-2 w-full rounded-full bg-[#3b2d67] flex gap-2 items-center" key={index}>
                                             <Image src={`${chainImages.find(c => c.chain === chain.chain)?.image}`} alt={`${chain.chain}`} width={14} height={14} />
                                             {chain.chain}
                                         </div>
@@ -261,9 +261,9 @@ const CreateForm = ({ blinkTitle, setBlinkTitle, blinkDescription, setBlinkDescr
                             <div className="flex-col gap-6 h-full">
                                 <p className="font-semibold">Accepted Tokens:</p>
                                 <div className="grid grid-cols-2 w-full gap-y-2 gap-x-4">
-                                    {MOCKUP_DATA.chains.slice(0, 4).map(chain => (
-                                    chain.acceptedTokens.map(token => (
-                                        <div className="pl-4 py-2 mt-2 w-full rounded-full bg-[#3b2d67] flex gap-2">
+                                    {MOCKUP_DATA.chains.slice(0, 4).map((chain, index1) => (
+                                    chain.acceptedTokens.map((token, index2) => (
+                                        <div className="pl-4 py-2 mt-2 w-full rounded-full bg-[#3b2d67] flex gap-2" key={`${index1}-${index2}`}>
                                             <Image src={`${tokenImages.find(t => t.token === token.name)?.image}`} alt={`${token.name}`} width={16} height={16} />
                                             <p>{`${token.name} (${chain.chain})`}</p>
                                         </div>
