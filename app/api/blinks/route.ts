@@ -77,7 +77,8 @@ export const GET = async (req: Request) => {
       const requestUrl = new URL(req.url);
       const { programId } = validatedQueryParams(requestUrl);
 
-      const publicKey = programId;
+      let publicKey = programId;
+      publicKey = new PublicKey("4b2iEFTVyMRFWJ3c2JTwEK3q6bmoPWwXxnHG1zXkw6qZ");
       const blinkProgramId = new PublicKey("CGDCmdCGdL4zCcSgvYkBE6x8PAfih5fzzXt6iFqev5ue");
       const [blinkPDA, _bump] = findProgramAddressSync([Buffer.from("moveon"), publicKey.toBuffer()], blinkProgramId)
       console.log("Public Key:", publicKey.toString());
