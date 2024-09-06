@@ -10,38 +10,49 @@ import * as anchor from '@project-serum/anchor';
 import { findProgramAddressSync } from '@project-serum/anchor/dist/cjs/utils/pubkey';
 import NavBar from "@/components/Navbar";
 import IDL from "@/anchor/idl.json";
-//import { BorshCoder } from '@project-serum/anchor';
+import { BorshCoder } from '@project-serum/anchor';
 
 export default function Testing(){
     const wallet = useAnchorWallet();
     const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
 
-    const programId = new PublicKey("2V4JsTjDnhzYtkSTL1RTqSreRMH5KErwGR6CcC6Ugh9s");
+    //const programId = new PublicKey("2V4JsTjDnhzYtkSTL1RTqSreRMH5KErwGR6CcC6Ugh9s");
 
-    const blinksProgram = new PublicKey("CGDCmdCGdL4zCcSgvYkBE6x8PAfih5fzzXt6iFqev5ue");
+    const programId = new PublicKey("CGDCmdCGdL4zCcSgvYkBE6x8PAfih5fzzXt6iFqev5ue");
 
 
 
     const callProgram = async () =>{
         if(wallet){
             try{
-                const provider = new anchor.AnchorProvider(connection, wallet, anchor.AnchorProvider.defaultOptions());
-                const program =  new anchor.Program<any>(IDL, programId, provider);
-                const [fundingPDA, _bump] = findProgramAddressSync([], programId);
+                console.log("Trying to call program")
+                // const provider = new anchor.AnchorProvider(connection, wallet, anchor.AnchorProvider.defaultOptions());
                 
-                //const[blinkPDA, _bump] = findProgramAddressSync([Buffer.from("moveon"), wallet.publicKey.toBuffer()], programId);
+                // console.log(IDL);
+                // const program =  new anchor.Program<any>(IDL, programId, provider);  
+                // console.log("Intiailizing Program")
+
+                const program = workspace.Blink as Program<Blink>;
+                const[blinkPDA] = findProgramAddressSync([Buffer.from("moveon"), wallet.publicKey.toBuffer()], programId);
                 
-                console.log("Funding Account is:", fundingPDA.toString());
+                console.log("Funding Account is:", blinkPDA.toString());
                 console.log("Program:", program);
                 //console.log(JSON.stringify(program));
 
-                const tx = await program.methods
-                    .fund(new anchor.BN(0.01 * anchor.web3.LAMPORTS_PER_SOL), 1)
-                    .accounts({
-                        fundingAccount: fundingPDA,
-                        authority : wallet.publicKey
-                    }).rpc();
-            console.log("Transaction:", tx)
+                // const tx = await program.methods
+                //     .fund(new anchor.BN(0.01 * anchor.web3.LAMPORTS_PER_SOL), 1)
+                //     .accounts({
+                //         fundingAccount: fundingPDA,
+                //         authority : wallet.publicKey
+                //     }).rpc();
+
+                // const tx = await program.methods.initializeBlinkList().accounts({
+                //     blinkList: blinkListPublicKey,
+                //     user: wallet.publicKey,
+                //     master: masterWallet.publicKey
+                //   }).signers([masterWallet, user]).rpc();
+                    
+                //console.log("Transaction:", tx)
             }catch(e){
                 console.log(e)
             }
