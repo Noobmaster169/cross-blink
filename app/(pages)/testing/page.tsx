@@ -18,6 +18,8 @@ export default function Testing(){
 
     const programId = new PublicKey("2V4JsTjDnhzYtkSTL1RTqSreRMH5KErwGR6CcC6Ugh9s");
 
+    const blinksProgram = new PublicKey("CGDCmdCGdL4zCcSgvYkBE6x8PAfih5fzzXt6iFqev5ue");
+
 
 
     const callProgram = async () =>{
