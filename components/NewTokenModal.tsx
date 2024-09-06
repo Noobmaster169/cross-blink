@@ -20,9 +20,11 @@ type ModalProps = {
   setSelectedChain: React.Dispatch<React.SetStateAction<string>>;
   addNewToken: (chain: string, name: string, tokenAddress: string) => void;
   initializedChains: any[];
+  blinkTokens: any;
+  setBlinkTokens: any;
 };
 
-const NewTokenModal = ({ isOpen, setIsOpen, newToken, setNewToken, addNewToken, selectedChain, setSelectedChain, initializedChains }: ModalProps) => {
+const NewTokenModal = ({ isOpen, setIsOpen, newToken, setNewToken, addNewToken, selectedChain, setSelectedChain, initializedChains, blinkTokens, setBlinkTokens }: ModalProps) => {
   const formSchema = z.object({
     blinkName: z.string(),
     blinkDescription: z.string(),
@@ -184,7 +186,10 @@ const NewTokenModal = ({ isOpen, setIsOpen, newToken, setNewToken, addNewToken, 
           <button
             type="button"
             className="bg-[#643cdd] text-white rounded-md font-semibold p-3 mt-10"
-            onClick = {() => addNewToken(selectedChain, newToken, "fumoisfun")}>
+            onClick = {() => {
+              setBlinkTokens([...blinkTokens, `${newToken} (${selectedChain})`])
+              addNewToken(selectedChain, newToken, "fumoisfun")
+            }}>
               Add Token
           </button>
         </div>

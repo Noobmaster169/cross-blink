@@ -100,11 +100,9 @@ const CreateForm = ({ blinkTitle, setBlinkTitle, blinkDescription, setBlinkDescr
     const [newToken, setNewToken] = useState("");
     const [selectedChain, setSelectedChain] = useState("");
     const [initializedChains, setInitializedChains] = useState(MOCKUP_DATA.chains.map(chain => chain.chain));
-    const [forceRender, setForceRender] = useState(false);
 
     useEffect(() => {
-      setBlinkTokens(MOCKUP_DATA.chains.map(chain => chain.acceptedTokens.map(token => token.name)).flat());
-      // console.log("in blink tokens:", MOCKUP_DATA.chains.map(chain => chain.acceptedTokens.map(token => token.name)).flat());
+      setBlinkTokens(MOCKUP_DATA.chains.map(chain => chain.acceptedTokens.map(token => `${token.name} (${chain.chain})`)).flat());
       console.log("blinkTokens", blinkTokens);
     }, [])
 
@@ -130,8 +128,10 @@ const CreateForm = ({ blinkTitle, setBlinkTitle, blinkDescription, setBlinkDescr
                 selectedChain={selectedChain}
                 setSelectedChain={setSelectedChain}
                 initializedChains={initializedChains}
+                blinkTokens={blinkTokens}
+                setBlinkTokens={setBlinkTokens}
             />
-            <div className="w-full p-4 px-8 min-h-full bg-[#221a3b] flex flex-col gap-6 text-white rounded-2xl pb-10">
+            <div className="w-full p-4 px-8 min-h-fit bg-[#221a3b] flex flex-col gap-6 text-white rounded-2xl pb-10">
                 <div className="items-center justify-center flex">
                     <p className="text-white font-semibold text-2xl">Create your Cross-Chain Blinks</p>
                 </div>
@@ -209,7 +209,7 @@ const CreateForm = ({ blinkTitle, setBlinkTitle, blinkDescription, setBlinkDescr
                         <FormItem className="h-1/3">
                             <div className="flex-col gap-6 h-full">
                                 <p className="font-semibold">Accepted Tokens:</p>
-                                <div className="grid grid-cols-1 w-1/2 gap-y-2 gap-x-4">
+                                <div className="grid grid-cols-2 w-full gap-y-2 gap-x-4">
                                     {MOCKUP_DATA.chains.slice(0, 4).map(chain => (
                                     chain.acceptedTokens.map(token => (
                                         <div className="pl-4 py-2 mt-2 w-full rounded-full bg-[#3b2d67] flex gap-2">
