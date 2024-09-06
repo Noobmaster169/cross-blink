@@ -8,12 +8,6 @@ const MASTER_PUBKEY: Pubkey = pubkey!("EHAPwi6PoKusaPE5yqQBLQFV69zTTyJTqHwAsN6WE
 pub mod blink {
     use super::*;
 
-    pub fn initialize_blink_list(ctx: Context<InitializeBlinkList>) -> Result<()> {
-        let blink_list = &mut ctx.accounts.blink_list;
-
-        blink_list.initialize()
-    }
-
     pub fn add_blink(
         ctx: Context<AddBlink>,
         uuid: String,
@@ -24,11 +18,9 @@ pub mod blink {
     ) -> Result<()> {
         let blink_list = &mut ctx.accounts.blink_list;
 
-        require_eq!(
-            blink_list.is_initialized,
-            true,
-            BlinkError::ListNotInitialized
-        );
+        if blink_list.is_initialized == false {
+            blink_list.initialize();
+        }
 
         let blink = Blink {
             uuid,
@@ -51,23 +43,11 @@ pub mod blink {
     ) -> Result<()> {
         let blink_list = &mut ctx.accounts.blink_list;
 
-        require_eq!(
-            blink_list.is_initialized,
-            true,
-            BlinkError::ListNotInitialized
-        );
-
         blink_list.update(uuid, name, description, image, accepted_chains)
     }
 
     pub fn delete_blink(ctx: Context<DeleteBlink>, uuid: String) -> Result<()> {
         let blink_list = &mut ctx.accounts.blink_list;
-
-        require_eq!(
-            blink_list.is_initialized,
-            true,
-            BlinkError::ListNotInitialized
-        );
 
         blink_list.delete(uuid)
     }
@@ -98,7 +78,13 @@ pub struct InitializeBlinkList<'info> {
 
 #[derive(Accounts)]
 pub struct AddBlink<'info> {
-    #[account(mut)]
+    #[account(
+        init_if_needed,
+        payer = master,
+        space = 8 + BlinkList::INIT_SPACE,
+        seeds = [b"moveon", user.key().as_ref()],
+        bump,
+    )]
     blink_list: Account<'info, BlinkList>,
     #[account(
         owner = system_program.key()
@@ -115,7 +101,13 @@ pub struct AddBlink<'info> {
 
 #[derive(Accounts)]
 pub struct UpdateBlink<'info> {
-    #[account(mut)]
+    #[account(
+        init_if_needed,
+        payer = master,
+        space = 8 + BlinkList::INIT_SPACE,
+        seeds = [b"moveon", user.key().as_ref()],
+        bump,
+    )]
     blink_list: Account<'info, BlinkList>,
     #[account(
         owner = system_program.key()
@@ -132,7 +124,13 @@ pub struct UpdateBlink<'info> {
 
 #[derive(Accounts)]
 pub struct DeleteBlink<'info> {
-    #[account(mut)]
+    #[account(
+        init_if_needed,
+        payer = master,
+        space = 8 + BlinkList::INIT_SPACE,
+        seeds = [b"moveon", user.key().as_ref()],
+        bump,
+    )]
     blink_list: Account<'info, BlinkList>,
     #[account(
         owner = system_program.key()
@@ -165,7 +163,6 @@ impl BlinkList {
 
     pub fn add(&mut self, blink: Blink) -> Result<()> {
         require_eq!(self.is_initialized, true, BlinkError::ListNotInitialized);
-
 
         if self.blinks.len() < 4 {
             self.blinks.push(blink);

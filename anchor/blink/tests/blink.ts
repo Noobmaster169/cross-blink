@@ -28,30 +28,6 @@ describe("blink", () => {
     assert.isAtLeast(balance, 5_000_000_000);
   })
 
-  it("initialize blinkList", async () => {
-    const user = Keypair.generate();
-    const [blinkListPublicKey] = PublicKey.findProgramAddressSync([Buffer.from("moveon"), user.publicKey.toBuffer()], program.programId);
-
-    const signature = await programProvider.connection.requestAirdrop(user.publicKey, 1_000_000_000);
-    const { blockhash, lastValidBlockHeight } = await programProvider.connection.getLatestBlockhash();
-    await programProvider.connection.confirmTransaction({
-      blockhash,
-      lastValidBlockHeight,
-      signature
-    });
-
-    await program.methods.initializeBlinkList().accounts({
-      blinkList: blinkListPublicKey,
-      user: user.publicKey,
-      master: masterWallet.publicKey
-    }).signers([masterWallet, user]).rpc();
-
-    const blinkListData = await program.account.blinkList.fetch(blinkListPublicKey);
-
-    assert.deepEqual(blinkListData.isInitialized, true);
-    assert.deepEqual(blinkListData.blinks, []);
-  });
-
   it("add a blink to list", async () => {
     const user = Keypair.generate();
     const [blinkListPublicKey] = PublicKey.findProgramAddressSync([Buffer.from("moveon"), user.publicKey.toBuffer()], program.programId);
@@ -63,12 +39,6 @@ describe("blink", () => {
       lastValidBlockHeight,
       signature
     });
-
-    await program.methods.initializeBlinkList().accounts({
-      blinkList: blinkListPublicKey,
-      user: user.publicKey,
-      master: masterWallet.publicKey
-    }).signers([masterWallet, user]).rpc();
 
     const uuid = uuidv4();
 
@@ -140,12 +110,6 @@ describe("blink", () => {
       lastValidBlockHeight,
       signature
     });
-
-    await program.methods.initializeBlinkList().accounts({
-      blinkList: blinkListPublicKey,
-      user: user.publicKey,
-      master: masterWallet.publicKey
-    }).signers([masterWallet, user]).rpc();
 
     const uuid = uuidv4();
 
@@ -245,12 +209,6 @@ describe("blink", () => {
       lastValidBlockHeight,
       signature
     });
-
-    await program.methods.initializeBlinkList().accounts({
-      blinkList: blinkListPublicKey,
-      user: user.publicKey,
-      master: masterWallet.publicKey
-    }).signers([masterWallet, user]).rpc();
 
     const uuid = uuidv4();
 
