@@ -1,14 +1,6 @@
 "use client"
 
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-  } from "@/components/ui/select"
-
-import { z } from "zod"
+import { set, z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 
@@ -27,6 +19,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { SiSolana } from "react-icons/si";
 import { useEffect, useState } from "react"
 import NewChainModal from "./NewChainModal"
+import NewTokenModal from "./NewTokenModal"
 
 const MOCKUP_DATA = {
     name: "Hello Blinks",
@@ -48,16 +41,6 @@ const MOCKUP_DATA = {
         address: "wow",
         acceptedTokens: [{name: "USDT", tokenAddress:"1234"}],
       },
-      // {
-      //     chain: "Aptos2",
-      //     address: "wow",
-      //     acceptedTokens: [{name: "USDT", tokenAddress:"1234"}],
-      // },
-      // {
-      //     chain: "Aptos3",
-      //     address: "wow",
-      //     acceptedTokens: [{name: "USDT", tokenAddress:"1234"}],
-      // },
     ]
   }
  
@@ -79,6 +62,13 @@ const CreateForm = ({ blinkTitle, setBlinkTitle, blinkDescription, setBlinkDescr
     });
     console.log(MOCKUP_DATA.chains)
     setIsChainModalOpen(false);
+  };
+
+  const addNewToken = (chain: string, name: string, tokenAddress: string) => {
+    const chainIndex = MOCKUP_DATA.chains.findIndex((c) => c.chain === chain);
+    MOCKUP_DATA.chains[chainIndex].acceptedTokens.push({ name, tokenAddress });
+    console.log(MOCKUP_DATA.chains)
+    setIsTokenModalOpen(false);
   };
     
     const formSchema = z.object({
@@ -106,10 +96,11 @@ const CreateForm = ({ blinkTitle, setBlinkTitle, blinkDescription, setBlinkDescr
     const [isChainModalOpen, setIsChainModalOpen] = useState(false);
     const [newChain, setNewChain] = useState("");
     const [newAddress, setNewAddress] = useState("");
-
-    useEffect(() => {
-      console.log(newChain, newAddress)
-    }, [newChain, newAddress])
+    const [isTokenModalOpen, setIsTokenModalOpen] = useState(false);
+    const [newToken, setNewToken] = useState("");
+    const [selectedChain, setSelectedChain] = useState("");
+    const [initializedChains, setInitializedChains] = useState(MOCKUP_DATA.chains.map(chain => chain.chain));
+    const [forceRender, setForceRender] = useState(false);
 
     useEffect(() => {
       setBlinkTokens(MOCKUP_DATA.chains.map(chain => chain.acceptedTokens.map(token => token.name)).flat());
@@ -119,7 +110,27 @@ const CreateForm = ({ blinkTitle, setBlinkTitle, blinkDescription, setBlinkDescr
 
     return(
         <>
-            <NewChainModal addNewChain={addNewChain} isOpen={isChainModalOpen} setIsOpen={setIsChainModalOpen} newChain={newChain} setNewChain={setNewChain} newAddress={newAddress} setNewAddress={setNewAddress} />
+            <NewChainModal
+                addNewChain={addNewChain}
+                isOpen={isChainModalOpen}
+                setIsOpen={setIsChainModalOpen}
+                newChain={newChain}
+                setNewChain={setNewChain}
+                newAddress={newAddress}
+                setNewAddress={setNewAddress}
+                initializedChains={initializedChains}
+                setInitializedChains={setInitializedChains}
+            />
+            <NewTokenModal
+                isOpen={isTokenModalOpen}
+                setIsOpen={setIsTokenModalOpen}
+                newToken={newToken}
+                setNewToken={setNewToken}
+                addNewToken={addNewToken}
+                selectedChain={selectedChain}
+                setSelectedChain={setSelectedChain}
+                initializedChains={initializedChains}
+            />
             <div className="w-full p-4 px-8 min-h-full bg-[#221a3b] flex flex-col gap-6 text-white rounded-2xl pb-10">
                 <div className="items-center justify-center flex">
                     <p className="text-white font-semibold text-2xl">Create your Cross-Chain Blinks</p>
@@ -208,7 +219,12 @@ const CreateForm = ({ blinkTitle, setBlinkTitle, blinkDescription, setBlinkDescr
                                 ))}
                                 </div>
                                 <div className="grid grid-cols-3 w-full gap-y-2 gap-x-4">
-                                    <Button type="button" className="mt-8 rounded-full bg-[#434871] w-full">+ Add New Token</Button>
+                                    <Button type="button" 
+                                    className="mt-8 rounded-full bg-[#434871] w-full"
+                                    onClick={() => setIsTokenModalOpen(true)}
+                                    >
+                                        + Add New Token
+                                    </Button>
                                 </div>
                             </div>
                         </FormItem>
