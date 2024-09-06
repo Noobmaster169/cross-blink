@@ -40,7 +40,7 @@ const BlinkPreview = ({blinkTitle, blinkDescription, blinkTokens}: BlinkProps) =
                 </div>
                 <div className="flex w-full h-full pb-4 px-32 items-center justify-center">
                     <div className="w-full h-full flex items-center justify-center">
-                        <Image src="/fumo.jpg" alt="Blink Preview" width={400} height={400} objectFit="contain" />
+                        <Image src="/cross-blink.png" alt="Blink Preview" width={400} height={400} objectFit="contain" />
                     </div>
                 </div>
                  <div className="items-center flex px-5">
