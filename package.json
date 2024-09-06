@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "rm -rf ./anchor/blinks && next build",
+    "build": "rm -rf ./anchor/blink && next build",
     "start": "next start",
     "lint": "next lint"
   },
