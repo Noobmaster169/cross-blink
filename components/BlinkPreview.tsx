@@ -51,7 +51,7 @@ const BlinkPreview = ({blinkTitle, blinkDescription, blinkTokens}: BlinkProps) =
                 </div>
                 <div className="grid grid-cols-2 gap-2 w-full justify-center items-center">
                   {blinkTokens.map((token: any, index: number) => (
-                    <div className="pl-4 py-2 mt-2 w-full rounded-full bg-[#3b2d67] flex gap-2 items-center ">
+                    <div className="pl-4 py-2 mt-2 w-full rounded-full bg-[#3b2d67] flex gap-2 items-center " key={index}>
                       <Image src={`${tokenImages.find(t => t.token === token.split(" ")[0])?.image || "/solana-sol-logo.svg"}`} alt={`${token.name}`} width={16} height={16} />
                       {token}
                     </div>
