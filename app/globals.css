@@ -21,13 +21,7 @@ html, body{
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background-color: #0E0B19; /* Replace with your desired color */
   background-attachment: fixed;
 }
 
@@ -87,5 +81,11 @@ body {
 
   /* box-shadow */
   --blink-shadow-container: 0px 2px 8px 0px rgba(59, 176, 255, 0.22), 0px 1px 48px 0px rgba(29, 155, 240, 0.24);
+}
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
 }
 
