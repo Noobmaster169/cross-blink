@@ -22,6 +22,24 @@ import NewChainModal from "./NewChainModal"
 import NewTokenModal from "./NewTokenModal"
 import Image from "next/image"
 
+type MockupProps = {
+    name: string,
+    image: string,
+    description: string,
+    chains: ChainProps[]
+}
+
+type ChainProps = {
+    chain: string,
+    address: string,
+    acceptedTokens: TokenProps[]
+}
+
+type TokenProps = {
+    name: string,
+    tokenAddress: string
+}
+
 const MOCKUP_DATA = {
     name: "Hello Blinks",
     image: "https://myimage.com",
@@ -35,14 +53,14 @@ const MOCKUP_DATA = {
 //       { 
 //         chain: "Solana",
 //         address: "Asf249undj",
-//         acceptedTokens: [{name: "USDC", tokenAddress:"1234"}],
+//         acceptedTokens: [] as TokenProps[],
 //       },
 //       {
 //         chain: "Aptos",
 //         address: "wow",
 //         acceptedTokens: [{name: "USDT", tokenAddress:"1234"}],
 //       },
-    ]
+    ] as ChainProps[]
   }
  
 type CreateFormProps = {
@@ -120,6 +138,8 @@ const CreateForm = ({ blinkTitle, setBlinkTitle, blinkDescription, setBlinkDescr
     const chainIndex = MOCKUP_DATA.chains.findIndex((c) => c.chain === chain);
     MOCKUP_DATA.chains[chainIndex].acceptedTokens.push({ name, tokenAddress });
     console.log(MOCKUP_DATA.chains)
+    setSelectedChain("");
+    setNewToken("");
     setIsTokenModalOpen(false);
   };
     
