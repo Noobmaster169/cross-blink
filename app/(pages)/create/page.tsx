@@ -33,13 +33,18 @@ export default function Home() {
     }
   }, [anchorWallet])
 
+  type TokenProps = {
+    name: string,
+    tokenAddress: string
+  }
 
   async function addBlink(
     name: string,
     description: string,
     image: string,
-    chains: { name: string, recipientAddress: string, acceptedTokens: string[] }[]
+    chains: { name: string, recipientAddress: string, acceptedTokens: TokenProps[] }[]
   ) {
+    console.log("in add blink")
     if (program && provider && blinkPDA && publicKey) {
       try {
         const tx = await program.methods.addBlink(

@@ -29,8 +29,8 @@ type MockupProps = {
 }
 
 type ChainProps = {
-  chain: string,
-  address: string,
+  name: string,
+  recipientAddress: string,
   acceptedTokens: TokenProps[]
 }
 
@@ -69,7 +69,7 @@ type CreateFormProps = {
   setBlinkDescription: React.Dispatch<React.SetStateAction<string>>;
   blinkTokens: any[];
   setBlinkTokens: React.Dispatch<React.SetStateAction<any>>;
-  addBlink: () => void;
+  addBlink: (name: string, description: string, image: string, chains: ChainProps[]) => void;
 }
 const chainImages = [{
   chain: "Ethereum",
@@ -125,10 +125,10 @@ const tokenImages = [
 ]
 
 const CreateForm = ({ blinkTitle, setBlinkTitle, blinkDescription, setBlinkDescription, blinkTokens, setBlinkTokens, addBlink }: CreateFormProps) => {
-  function addNewChain(chain: string, address: string) {
+  function addNewChain(name: string, recipientAddress: string) {
     MOCKUP_DATA.chains.push({
-      chain,
-      address,
+      name,
+      recipientAddress,
       acceptedTokens: [],
     });
     console.log(MOCKUP_DATA.chains)
@@ -136,7 +136,7 @@ const CreateForm = ({ blinkTitle, setBlinkTitle, blinkDescription, setBlinkDescr
   };
 
   const addNewToken = (chain: string, name: string, tokenAddress: string) => {
-    const chainIndex = MOCKUP_DATA.chains.findIndex((c) => c.chain === chain);
+    const chainIndex = MOCKUP_DATA.chains.findIndex((c) => c.name === chain);
     MOCKUP_DATA.chains[chainIndex].acceptedTokens.push({ name, tokenAddress });
     console.log(MOCKUP_DATA.chains);
     setSelectedChain("");
@@ -148,7 +148,6 @@ const CreateForm = ({ blinkTitle, setBlinkTitle, blinkDescription, setBlinkDescr
     blinkName: z.string(),
     blinkDescription: z.string(),
     walletAddress: z.string(),
-    transferAmount: z.number(),
   })
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -166,9 +165,9 @@ const CreateForm = ({ blinkTitle, setBlinkTitle, blinkDescription, setBlinkDescr
 
     const defaultImage = "https://github.com/Noobmaster169/cross-blink/blob/main/public/cross-blink.png?raw=true"
 
-    console.log(values)
-
-    await addBlink(); // TODO: pass arguments to addBlink
+    // console.log(values)
+    console.log("got here")
+    await addBlink(values.blinkName, values.blinkDescription, defaultImage, MOCKUP_DATA.chains); // TODO: pass arguments to addBlink
   }
 
   const [isChainModalOpen, setIsChainModalOpen] = useState(false);
@@ -177,10 +176,10 @@ const CreateForm = ({ blinkTitle, setBlinkTitle, blinkDescription, setBlinkDescr
   const [isTokenModalOpen, setIsTokenModalOpen] = useState(false);
   const [newToken, setNewToken] = useState("");
   const [selectedChain, setSelectedChain] = useState("");
-  const [initializedChains, setInitializedChains] = useState(MOCKUP_DATA.chains.map(chain => chain.chain));
+  const [initializedChains, setInitializedChains] = useState(MOCKUP_DATA.chains.map(chain => chain.name));
 
   useEffect(() => {
-    setBlinkTokens(MOCKUP_DATA.chains.map(chain => chain.acceptedTokens.map(token => `${token.name} (${chain.chain})`)).flat())
+    setBlinkTokens(MOCKUP_DATA.chains.map(chain => chain.acceptedTokens.map(token => `${token.name} (${chain.name})`)).flat())
   }, [])
 
   return (
@@ -222,10 +221,14 @@ const CreateForm = ({ blinkTitle, setBlinkTitle, blinkDescription, setBlinkDescr
                   <FormLabel>Blink Name:</FormLabel>
                   <FormControl>
                     <Input
-                      className="bg-[#434871] border-opacity-0 rounded-lg"
-                      placeholder=""
-                      value={blinkTitle}
-                      onChange={(e) => setBlinkTitle(e.target.value)}
+                        {...field}
+                        className="bg-[#434871] border-opacity-0 rounded-lg"
+                        placeholder=""
+                        // value={blinkTitle}
+                        onChange={(e) => {
+                            field.onChange(e);
+                            setBlinkTitle(e.target.value)
+                        }}
                     />
                   </FormControl>
                   <FormMessage />
@@ -240,10 +243,13 @@ const CreateForm = ({ blinkTitle, setBlinkTitle, blinkDescription, setBlinkDescr
                   <FormLabel>Blink Description:</FormLabel>
                   <FormControl>
                     <Textarea
-                      className="bg-[#434871] border-opacity-0 resize-none rounded-lg"
-                      placeholder=""
-                      value={blinkDescription}
-                      onChange={(e) => setBlinkDescription(e.target.value)}
+                        {...field}
+                        className="bg-[#434871] border-opacity-0 resize-none rounded-lg"
+                        placeholder=""
+                        onChange={(e) => {
+                            field.onChange(e);
+                            setBlinkDescription(e.target.value);
+                        }}
                     />
                   </FormControl>
                   <FormMessage />
@@ -260,8 +266,8 @@ const CreateForm = ({ blinkTitle, setBlinkTitle, blinkDescription, setBlinkDescr
                     <div className="grid grid-cols-2 w-full gap-y-2 gap-x-4">
                       {MOCKUP_DATA.chains.slice(0, 4).map((chain, index) => (
                         <div className="justify-center py-2 mt-2 w-full rounded-full bg-[#3b2d67] flex gap-2 items-center" key={index}>
-                          <Image src={`${chainImages.find(c => c.chain === chain.chain)?.image}`} alt={`${chain.chain}`} width={14} height={14} />
-                          {chain.chain}
+                          <Image src={`${chainImages.find(c => c.chain === chain.name)?.image}`} alt={`${chain.name}`} width={14} height={14} />
+                          {chain.name}
                         </div>
                       ))}
                     </div>
@@ -291,7 +297,7 @@ const CreateForm = ({ blinkTitle, setBlinkTitle, blinkDescription, setBlinkDescr
                         chain.acceptedTokens.map((token, index2) => (
                           <div className="pl-4 py-2 mt-2 w-full rounded-full bg-[#3b2d67] flex gap-2" key={`${index1}-${index2}`}>
                             <Image src={`${tokenImages.find(t => t.token === token.name)?.image}`} alt={`${token.name}`} width={16} height={16} />
-                            <p>{`${token.name} (${chain.chain})`}</p>
+                            <p>{`${token.name} (${chain.name})`}</p>
                           </div>
                         ))
                       ))}
@@ -308,17 +314,9 @@ const CreateForm = ({ blinkTitle, setBlinkTitle, blinkDescription, setBlinkDescr
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="blinkDescription"
-              render={({ field }) => (
-                <FormItem className="flex justify-center">
-                  <div className="items-center justify-center w-1/2 flex">
-                    <Button type="submit" className="rounded-full font-semibold px-16 w-full text-lg bg-[#643cdd]">Create Blinks</Button>
-                  </div>
-                </FormItem>
-              )}
-            />
+            <div className="items-center justify-center w-full flex">
+                <Button type="submit" className="rounded-full font-semibold px-16 w-1/2 text-lg bg-[#643cdd]">Create Blinks</Button>
+            </div>
           </form>
         </Form>
         <div>
