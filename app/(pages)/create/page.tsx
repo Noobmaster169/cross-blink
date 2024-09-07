@@ -47,6 +47,11 @@ export default function Home() {
     console.log("in add blink")
     if (program && provider && blinkPDA && publicKey) {
       try {
+        console.log(uuidv4());
+        console.log(name);
+        console.log(description);
+        console.log(image);
+        console.log(chains);
         const tx = await program.methods.addBlink(
           uuidv4(),
           name,

@@ -166,7 +166,15 @@ const CreateForm = ({ blinkTitle, setBlinkTitle, blinkDescription, setBlinkDescr
 
     // console.log(values)
     console.log("got here")
-    await addBlink(values.blinkName, values.blinkDescription, defaultImage, MOCKUP_DATA.chains); // TODO: pass arguments to addBlink
+    const chainAddresses:any = MOCKUP_DATA.chains.map(data => {
+        const acceptedTokens = data.acceptedTokens.map(token => token.tokenAddress);
+        return({
+            name: data.name, 
+            recipientAddress: data.recipientAddress, 
+            acceptedTokens,
+        })
+    });
+    await addBlink(values.blinkName, values.blinkDescription, defaultImage, chainAddresses); // TODO: pass arguments to addBlink
   }
 
   const [isChainModalOpen, setIsChainModalOpen] = useState(false);
