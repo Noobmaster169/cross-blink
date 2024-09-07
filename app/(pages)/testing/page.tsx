@@ -21,7 +21,7 @@ export default function Testing() {
 
     const blinkProgramId = new PublicKey("CGDCmdCGdL4zCcSgvYkBE6x8PAfih5fzzXt6iFqev5ue");
 
-    const masterWallet = Keypair.fromSecretKey(new Uint8Array(JSON.parse(process.env.NEXT_PUBLIC_MASTER_WALLET)));
+    const masterWallet = Keypair.fromSecretKey(new Uint8Array(JSON.parse(process.env.NEXT_PUBLIC_MASTER_WALLET ?? "")));
 
     useEffect(() => {
         if (anchorWallet) {
