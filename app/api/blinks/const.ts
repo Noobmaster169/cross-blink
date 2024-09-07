@@ -1,14 +1,14 @@
-import {PublicKey, clusterApiUrl} from '@solana/web3.js';
+import { PublicKey, clusterApiUrl } from '@solana/web3.js';
 import dotenv from "dotenv";
 dotenv.config();
 
-export const DEFAULT_SOL_ADDRESS : PublicKey = new PublicKey(
+export const DEFAULT_SOL_ADDRESS: PublicKey = new PublicKey(
     process.env.RECIPIENT ?? "H1ZpCkCHJR9HxwLQSGYdCDt7pkqJAuZx5FhLHzWHdiEw"
 );
 
-export const PROGRAM_ID : PublicKey = new PublicKey("2V4JsTjDnhzYtkSTL1RTqSreRMH5KErwGR6CcC6Ugh9s");
+export const PROGRAM_ID: PublicKey = new PublicKey("2V4JsTjDnhzYtkSTL1RTqSreRMH5KErwGR6CcC6Ugh9s");
 
-export const DEFAULT_SOL_AMOUNT : number = process.env.DEFAULT_AMOUNT ? parseFloat(process.env.DEFAULT_AMOUNT) : 0.01;
+export const DEFAULT_SOL_AMOUNT: number = process.env.DEFAULT_AMOUNT ? parseFloat(process.env.DEFAULT_AMOUNT) : 0.01;
 
 export const DEFAULT_RPC = process.env.RPC_URL ?? clusterApiUrl("devnet");
 
