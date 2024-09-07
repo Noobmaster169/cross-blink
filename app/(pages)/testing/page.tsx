@@ -53,7 +53,6 @@ export default function Testing() {
     ) {
         if (program && provider && blinkPDA && publicKey) {
             try {
-                console.log({uuidv4(), name, description, image, chains});
                 const tx = await program.methods.addBlink(
                     uuidv4(),
                     name,

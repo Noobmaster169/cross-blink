@@ -113,7 +113,7 @@ export const GET = async (req: Request) => {
     const payload: ActionGetResponse = {
       title: MOCKUP_DATA.name,
       icon:
-        DEFAULT_AVATAR ?? new URL("/solana_devs.jpg", requestUrl.origin).toString(),
+        MOCKUP_DATA.image,
       description: MOCKUP_DATA.description,
       label: MOCKUP_DATA.name,
       links: {
