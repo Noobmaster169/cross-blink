@@ -44,7 +44,6 @@ export default function Home() {
     image: string,
     chains: { name: string, recipientAddress: string, acceptedTokens: TokenProps[] }[]
   ) {
-    console.log("in add blink")
     if (program && provider && blinkPDA && publicKey) {
       try {
         console.log(uuidv4());

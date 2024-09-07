@@ -164,17 +164,16 @@ const CreateForm = ({ blinkTitle, setBlinkTitle, blinkDescription, setBlinkDescr
 
     const defaultImage = "https://github.com/Noobmaster169/cross-blink/blob/main/public/cross-blink.png?raw=true"
 
-    // console.log(values)
-    console.log("got here")
-    const chainAddresses:any = MOCKUP_DATA.chains.map(data => {
-        const acceptedTokens = data.acceptedTokens.map(token => token.tokenAddress);
-        return({
-            name: data.name, 
-            recipientAddress: data.recipientAddress, 
-            acceptedTokens,
-        })
+    const chainAddresses: any = MOCKUP_DATA.chains.map(data => {
+      const acceptedTokens = data.acceptedTokens.map(token => token.tokenAddress);
+      return ({
+        name: data.name,
+        recipientAddress: data.recipientAddress,
+        acceptedTokens,
+      })
     });
-    await addBlink(values.blinkName, values.blinkDescription, defaultImage, chainAddresses); // TODO: pass arguments to addBlink
+
+    await addBlink(values.blinkName, values.blinkDescription, defaultImage, chainAddresses);
   }
 
   const [isChainModalOpen, setIsChainModalOpen] = useState(false);
@@ -228,14 +227,14 @@ const CreateForm = ({ blinkTitle, setBlinkTitle, blinkDescription, setBlinkDescr
                   <FormLabel>Blink Name:</FormLabel>
                   <FormControl>
                     <Input
-                        {...field}
-                        className="bg-[#434871] border-opacity-0 rounded-lg"
-                        placeholder=""
-                        // value={blinkTitle}
-                        onChange={(e) => {
-                            field.onChange(e);
-                            setBlinkTitle(e.target.value)
-                        }}
+                      {...field}
+                      className="bg-[#434871] border-opacity-0 rounded-lg"
+                      placeholder=""
+                      // value={blinkTitle}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        setBlinkTitle(e.target.value)
+                      }}
                     />
                   </FormControl>
                   <FormMessage />
@@ -250,13 +249,13 @@ const CreateForm = ({ blinkTitle, setBlinkTitle, blinkDescription, setBlinkDescr
                   <FormLabel>Blink Description:</FormLabel>
                   <FormControl>
                     <Textarea
-                        {...field}
-                        className="bg-[#434871] border-opacity-0 resize-none rounded-lg"
-                        placeholder=""
-                        onChange={(e) => {
-                            field.onChange(e);
-                            setBlinkDescription(e.target.value);
-                        }}
+                      {...field}
+                      className="bg-[#434871] border-opacity-0 resize-none rounded-lg"
+                      placeholder=""
+                      onChange={(e) => {
+                        field.onChange(e);
+                        setBlinkDescription(e.target.value);
+                      }}
                     />
                   </FormControl>
                   <FormMessage />
@@ -322,7 +321,7 @@ const CreateForm = ({ blinkTitle, setBlinkTitle, blinkDescription, setBlinkDescr
               )}
             />
             <div className="items-center justify-center w-full flex">
-                <Button type="submit" className="rounded-full font-semibold px-16 w-1/2 text-lg bg-[#643cdd]">Create Blinks</Button>
+              <Button type="submit" className="rounded-full font-semibold px-16 w-1/2 text-lg bg-[#643cdd]">Create Blinks</Button>
             </div>
           </form>
         </Form>

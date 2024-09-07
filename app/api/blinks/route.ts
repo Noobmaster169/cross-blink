@@ -197,8 +197,6 @@ export const POST = async (req: Request) => {
 
         message: `Send ${amount} SOL to ${programId.toBase58()}`,
       },
-      // note: no additional signers are needed
-      // signers: [],
     });
 
     return Response.json(payload, {
@@ -220,10 +218,11 @@ function validatedQueryParams(requestUrl: URL) {
   let programId: PublicKey;
   let amount: number = 0;
   let token: string = "";
+  let index: number = 0;
 
   try {
     if (requestUrl.searchParams.get("amount")) {
-      amount = parseInt(requestUrl.searchParams.get("amount")!);
+      amount = parseInt(requestUrl.searchParams.get("amount") ?? "1");
     }
     if (amount < 0) throw "Invalid Amount";
   } catch (err) {
@@ -240,15 +239,20 @@ function validatedQueryParams(requestUrl: URL) {
   } catch (err) {
     throw "Invalid input query parameter: amount";
   }
+  try {
+    if (requestUrl.searchParams.get("index")) {
+      index = parseInt(requestUrl.searchParams.get("index") ?? "0");
+    }
+    if (amount < 0) throw "Invalid Amount";
+  } catch (err) {
+    throw "Invalid input query parameter: amount";
+  }
 
   try {
     if (requestUrl.searchParams.get("to")) {
       programId = new PublicKey(requestUrl.searchParams.get("to")!);
       if (programId) {
-        console.log("Amount:", amount)
-        console.log("Program ID:", programId.toString());
-        console.log("Token:", token);
-        return { amount, programId, token };
+        return { amount, programId, token, index };
       }
     }
   } catch (err) {
