@@ -13,7 +13,7 @@ export default function Home() {
       <div className="pb-10">
         <div className="w-screen flex flex-col items-center justify-center h-full">
           <NavBar />
-          <div className="w-screen flex flex-row justify-between">
+          <div className="w-screen flex justify-center items-center">
             <BlinksDisplay address={publicKey} />
           </div>
         </div>

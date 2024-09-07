@@ -12,7 +12,7 @@ const BlinksDisplay = ({ address }: { address: PublicKey | null }) => {
   const { adapter }: { adapter: ActionAdapter} = useActionSolanaWalletAdapter('https://solana-devnet.g.alchemy.com/v2/s_ZQF7EdG2LzQMpDSa70Eo4Zu_Z01sp2');
 
   const apiUrls = useMemo(() => ([
-    'https://funding-with-blink.vercel.app/api/vote',
+    // 'https://funding-with-blink.vercel.app/api/vote',
     `https://cross-blink.vercel.app/api/blinks?to=${address}`
   ]), [address]);
 
@@ -37,9 +37,9 @@ const BlinksDisplay = ({ address }: { address: PublicKey | null }) => {
 
   return (
     isRegistryLoaded ? (
-      <div className="w-1/2">
+      <div className="w-full flex items-center justify-center gap-8 mt-4">
         {actions.map(action => (
-          <div key={action.url} className="w-96">
+          <div key={action.url} className="w-1/4">
             <Blink stylePreset="x-dark" action={action} websiteText={new URL(action.url).hostname} />
           </div>
         ))}
