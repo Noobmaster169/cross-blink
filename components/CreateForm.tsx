@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { SiSolana } from "react-icons/si";
 import { useEffect, useState } from "react"
 import NewChainModal from "./NewChainModal"
 import NewTokenModal from "./NewTokenModal"
