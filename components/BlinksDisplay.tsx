@@ -15,7 +15,6 @@ const BlinksDisplay = () => {
 
 const ManyActions = ({ adapter }: { adapter: ActionAdapter }) => {
   const apiUrls = useMemo(() => ([
-    'https://funding-with-blink.vercel.app/api/vote',
     'https://cross-blink.vercel.app/api/blinks?to=2V4JsTjDnhzYtkSTL1RTqSreRMH5KErwGR6CcC6Ugh9s'
   ]), []);
   
@@ -38,9 +37,9 @@ const ManyActions = ({ adapter }: { adapter: ActionAdapter }) => {
   }, [actions, adapter]);
 
   return (
-    <div className="w-1/2">
+    <div className="w-full flex justify-center gap-12">
       {actions.map(action => (
-        <div key={action.url} className="w-96">
+        <div key={action.url} className="w-1/4 py-4">
           <Blink stylePreset="x-dark" action={action} websiteText={new URL(action.url).hostname} />
         </div>
       ))}
