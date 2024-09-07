@@ -49,7 +49,7 @@ export default function NavBar() {
 
         <h1 className="hidden md:block text-semibold text-3xl opacity-0">Cross Blink</h1>
         {/*<div className ="opacity-0 pointer-events-none">*/}
-        <div className="pt">
+        <div>
           <WalletMultiButtonDynamic style={{ background: "#374151" }} />
         </div>
         {/*</div>*/}

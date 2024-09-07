@@ -10,12 +10,11 @@ const poppins = Poppins({
   variable: "--font-poppins"
 });
 
-
 export const metadata: Metadata = {
   title: "Cross Blink",
   description: "Seamless Crosschain Applications through Blinks",
 };
- 
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -25,14 +24,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={poppins.variable} suppressHydrationWarning={true}>
         <AppWalletProvider>
-        <div className="h-[100vh]">
-          {/*<NavBar />*/}
-          <div className="pt-15">
-            <div className="h-[100vh] pt-24">
-              {children}
-            </div>
-          </div>
-        </div>
+          {children}
         </AppWalletProvider>
       </body>
     </html>
