@@ -6,8 +6,6 @@ const DEFAULT_SOL_ADDRESS: PublicKey = new PublicKey(
     process.env.RECIPIENT ?? "H1ZpCkCHJR9HxwLQSGYdCDt7pkqJAuZx5FhLHzWHdiEw"
 );
 
-const PROGRAM_ID: PublicKey = new PublicKey("2V4JsTjDnhzYtkSTL1RTqSreRMH5KErwGR6CcC6Ugh9s");
-
 const DEFAULT_SOL_AMOUNT: number = process.env.DEFAULT_AMOUNT ? parseFloat(process.env.DEFAULT_AMOUNT) : 0.01;
 
 const DEFAULT_RPC = process.env.RPC_URL ?? clusterApiUrl("devnet");
@@ -24,7 +22,6 @@ const MASTER_WALLET_KEYPAIR = Keypair.fromSecretKey(new Uint8Array(JSON.parse(pr
 
 export {
     DEFAULT_SOL_ADDRESS,
-    PROGRAM_ID,
     DEFAULT_SOL_AMOUNT,
     DEFAULT_RPC,
     DEFAULT_TITLE,
