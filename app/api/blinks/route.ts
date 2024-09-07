@@ -91,12 +91,12 @@ export const GET = async (req: Request) => {
     const blinkList: any = await programAccount.blinkList.fetch(blinkPDA);
     console.log(blinkList);
 
-    if (blinkList.blinks) {
-      const blinkData = blinkList.blinks[0];
-      MOCKUP_DATA.name = blinkData.name;
-      MOCKUP_DATA.description = blinkData.description;
-      console.log(blinkData.acceptedChains);
-    }
+    // if (blinkList.blinks) {
+    //   const blinkData = blinkList.blinks[0];
+    //   MOCKUP_DATA.name = blinkData.name;
+    //   MOCKUP_DATA.description = blinkData.description;
+    //   console.log(blinkData.acceptedChains);
+    // }
 
     // Get the list of tokens in each chain
     const tokenOptions: blinkOptionProps[] = [];

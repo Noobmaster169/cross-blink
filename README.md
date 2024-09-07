@@ -1,6 +1,10 @@
 # Cross Blink
 
-This project is an app for Solana users to analyze their previous wallet transactions by simply connecting their wallet to the app.
+This project is a Blink project for users to do Seamless CrossChain Transactions.
+
+How it works:
+- Users initialize a blink by adding all their CrossChain Wallet Addresses
+- Senders can initiate a transaction to send the money to any of the wallets in a single click using Blinks
 
 Check out the deployed app: []()
 
