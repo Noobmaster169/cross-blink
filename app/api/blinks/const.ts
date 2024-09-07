@@ -20,7 +20,7 @@ const DEFAULT_DESCRIPTION = process.env.DESCRIPTION ?? "This Funding Account is 
 
 const BLINK_PROGRAM_PUBLIC_KEY = new PublicKey("CGDCmdCGdL4zCcSgvYkBE6x8PAfih5fzzXt6iFqev5ue");
 
-const MASTER_WALLET_KEYPAIR = Keypair.fromSecretKey(new Uint8Array(JSON.parse(process.env.NEXT_PUBLIC_MASTER_WALLET)));
+const MASTER_WALLET_KEYPAIR = Keypair.fromSecretKey(new Uint8Array(JSON.parse(process.env.NEXT_PUBLIC_MASTER_WALLET ?? "")));
 
 export {
     DEFAULT_SOL_ADDRESS,
