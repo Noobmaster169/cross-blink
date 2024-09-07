@@ -119,7 +119,7 @@ export const GET = async (req: Request) => {
       links: {
         actions: [
           {
-            label: "Select Chain",
+            label: "Send Token",
             href: `${baseHref}&token={token}&amount={amount}`,
             parameters: [
               //{type:"text", name:"message", label:"Transfer Message"},
