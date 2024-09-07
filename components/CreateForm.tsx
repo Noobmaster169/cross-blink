@@ -27,6 +27,11 @@ const MOCKUP_DATA = {
     image: "https://myimage.com",
     description:"Lorem ipsum dolor sit amet bla bla bla",
     chains:[
+        { 
+            chain: "Solana",
+            address: "Asf249undj",
+            acceptedTokens: [{name: "USDC", tokenAddress:"1234"}],
+        },
 //       {
 //         chain: "Ethereum",
 //         address: "0x1234567890",
