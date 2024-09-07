@@ -35,7 +35,7 @@ const MOCKUP_DATA = {
     {
       chain: "ethereum",
       address: "0x1234567890",
-      acceptedTokens: [{ name: "USDT", tokenAddress: "1234" }, { name: "USDC", tokenAddress: "1234" }],
+      acceptedTokens: [{ name: "SOL", tokenAddress: "1234" }, { name: "USDT", tokenAddress: "1234" }, { name: "USDC", tokenAddress: "1234" }],
     },
     {
       chain: "solana",
