@@ -151,7 +151,7 @@ const NewTokenModal = ({ isOpen, setIsOpen, newToken, setNewToken, addNewToken, 
             
             <p className="text-white mb-3 mt-8">Select Token</p>
             <Select onValueChange={setNewToken}>
-              <SelectTrigger className={`text-white w-[180px] bg-[#3B2D67] border-opacity-0 font-semibold select-field ${(selectedChain.length > 0) ? "" : "pointer-events-none cursor-not-allowed bg-[#3c3c3c] text-[#777777]"}`}>
+              <SelectTrigger className={`w-[180px] border-opacity-0 font-semibold select-field ${(selectedChain.length > 0) ? "text-white bg-[#3B2D67]" : "pointer-events-none cursor-not-allowed bg-[#3c3c3c] text-[#777777]"}`}>
                   <SelectValue placeholder="Target Token" />
               </SelectTrigger>
               <SelectContent className="bg-[#3B2D67] text-white font-semibold">
@@ -185,12 +185,11 @@ const NewTokenModal = ({ isOpen, setIsOpen, newToken, setNewToken, addNewToken, 
           </div>
           <button
             type="button"
-            className={`bg-[#643cdd] text-white rounded-md font-semibold p-3 mt-10 ${newToken.length > 0 ? "" : "cursor-not-allowed pointer-events-none bg-[#3c3c3c] text-[#8d8a8a]"}`}
+            className={`rounded-md font-semibold p-3 mt-10 ${newToken.length > 0 ? "bg-[#643cdd] text-white" : "cursor-not-allowed pointer-events-none bg-[#3c3c3c] text-[#8d8a8a]"}`}
             onClick = {() => {
               setBlinkTokens([...blinkTokens, `${newToken} (${selectedChain})`])
               addNewToken(selectedChain, newToken, "fumoisfun")
               // setSelectedChain("")
-              // console.log(newToken)
             }}>
               Add Token
           </button>
