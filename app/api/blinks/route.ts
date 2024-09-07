@@ -102,8 +102,8 @@ export const GET = async (req: Request) => {
     const tokenOptions: blinkOptionProps[] = [];
     MOCKUP_DATA.chains.forEach(chain => {
       chain.acceptedTokens.forEach(token => {
-        const chainName = chain.chain.charAt(0).toUpperCase() + chain.chain.slice(1)
-        const tokenChainLabel = `${chainName}:${token.name}`
+        //const chainName = chain.chain.charAt(0).toUpperCase() + chain.chain.slice(1)
+        const tokenChainLabel = `${token.name} (${chain.chain})`
         const tokenChainKey = `${chain.chain}-${token.name}`
 
         tokenOptions.push({ label: tokenChainLabel, value: tokenChainKey });
