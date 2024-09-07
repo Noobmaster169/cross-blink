@@ -162,9 +162,56 @@ const CreateForm = ({ blinkTitle, setBlinkTitle, blinkDescription, setBlinkDescr
     function onSubmit(values: z.infer<typeof formSchema>) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
+        
+        const defaultImage = "https://github.com/Noobmaster169/cross-blink/blob/main/public/cross-blink.png?raw=true"
+        // addBlink(blinkTitle, blinkDescription,"", [])
+         
         console.log(values)
     }
 
+    // async function addBlink(
+    //     name: string,
+    //     description: string,
+    //     image: string,
+    //     chains: { name: string, recipientAddress: string, acceptedTokens: string[] }[]
+    // ) {
+    //     if (program && provider && blinkPDA && publicKey) {
+    //         try {
+    //             const tx = await program.methods.addBlink(
+    //                 uuidv4(),
+    //                 name,
+    //                 description,
+    //                 image,
+    //                 chains
+    //             )
+    //                 .accounts({
+    //                     blinkList: blinkPDA,
+    //                     user: publicKey,
+    //                     master: masterWallet.publicKey
+    //                 })
+    //                 .transaction();
+
+    //             const { blockhash, lastValidBlockHeight } = await provider.connection.getLatestBlockhash();
+
+    //             tx.recentBlockhash = blockhash;
+    //             tx.lastValidBlockHeight = lastValidBlockHeight;
+    //             tx.feePayer = masterWallet.publicKey;
+    //             tx.sign(masterWallet);
+
+    //             const signature = await sendTransaction(tx, connection);
+    //             await provider.connection.confirmTransaction({ signature, blockhash, lastValidBlockHeight });
+    //         } catch (error) {
+    //             console.error(error);
+    //         }
+    //     }
+    // }
+    
+    
+    
+    
+    
+    
+    
     const [isChainModalOpen, setIsChainModalOpen] = useState(false);
     const [newChain, setNewChain] = useState("");
     const [newAddress, setNewAddress] = useState("");

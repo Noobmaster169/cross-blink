@@ -34,7 +34,8 @@ export default function Testing() {
     async function fetchBlinkList(blinkPDA: PublicKey) {
         if (program && provider && publicKey) {
             try {
-                const blinkList = await program.account.blinkList.fetch(blinkPDA);
+                const programAccount:any = program.account
+                const blinkList = await programAccount.blinkList.fetch(blinkPDA);
 
                 return blinkList;
             } catch (error) {
